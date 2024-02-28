@@ -54,8 +54,32 @@ const config = {
         },
         // custom 
         primary: {
-          500: "var(--primary-500)"
+          gredient: 'var(--primary-gredient)',
+          500: "var(--primary-500)",
+          800: "var(--primary-800)",
+          900: "var(--primary-900)",
         }, 
+        black: {
+          600: "var(--black-600)",
+          700: "var(--black-700)",
+          800: "var(--black-800)",
+          900: 'var(--black-900)',
+        }, 
+        white: {
+          100: 'var(--white-100)',
+          300: "var(--white-300)",
+          500: "var(--white-500)",
+        }, 
+        purple: {
+          500: "var(--purple-500)",
+          900: "var(--purple-900)",
+        }, 
+        green: {
+          400: "var(--green-400)",
+          500: "var(--green-500)",
+          900: "var(--green-900)",
+        }, 
+        
       },
       borderRadius: {
         lg: "var(--radius)",
