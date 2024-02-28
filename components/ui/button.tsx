@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         primary: 'btn bg-primary-500 text-black-900 rounded font-bold',
         secondary:
-          'btn bg-black-600 text-white-100 rounded-[4px] font-medium btn-secodary-shadow ',
+          'font-inter btn bg-black-600 text-white-100 rounded-[4px] font-medium btn-secodary-shadow',
       },
       size: {
         default: 'h-10 px-4 py-2',

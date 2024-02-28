@@ -86,9 +86,9 @@ const config = {
         // 'btn-secondary-shadow-2': '0px 0px 0px 1px #12121212', kaze da je isto kao shadow 1
         // 'btn-secondary-shadow-3': '0px 1px 1px 0px #1212121A',  kaze da je isto kao shadow 1
       },
-      fontFamily: {
-        inter: ['inter', 'sans-serif']
-      },
+      // fontFamily: {
+      //   inter: ['Inter',] // Dodao sam Inter font kroz app layout tsx
+      // },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
