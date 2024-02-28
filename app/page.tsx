@@ -21,14 +21,17 @@ const Home: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        backgroundColor: '#10121E',
         alignItems: 'center',
         width: '100%',
         height: '100vh',
       }}
     >
-      {/* <Button>dsadasdasdsa</Button> */}
-      <h2 className="h2-bold">this is some text</h2>
-      <p className="p1-medium">Paragraph 1 Medium</p>
+      <div className="w-[400px] ">
+        <Button variant="secondary">Login</Button>
+      </div>
+      {/* <h2 className="h2-bold">this is some text</h2>
+      <p className="p1-medium">Paragraph 1 Medium</p> */}
     </div>
   );
 };

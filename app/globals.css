@@ -13,7 +13,6 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
  
-
     /* PRIMARY */
     --primary-gredient: linear-gradient(90deg, #43B7FE 0%, #4F48E6 100%);
     --primary-500:  #42BBFF;
@@ -111,61 +110,60 @@
   }
   
   .h2-bold {
-    @apply  font-bold text-[24px] leading-[32px]
+    @apply  font-bold text-2xl
   }
   
   .h1-medium {
-    @apply font-medium text-[20px] leading-[28px]
+    @apply font-medium text-xl
   }
   
   .h2-medium {
-    @apply font-medium text-[16px] leading-[24px]
+    @apply font-medium text-base
   }
   /* HEADINGS */
 
   /* PARAGRAPHS BOLD */
   .p1-bold {
-    @apply font-bold text-[18px] leading-[28px]
+    @apply font-bold text-lg
   }
   
   .p2-bold {
-    @apply font-bold text-[16px] leading-[24px]
+    @apply font-bold text-base
   }
-  
   .p3-bold {
-    @apply font-bold text-[14px] leading-[20px]
+    @apply font-bold text-sm
   }
   /* PARAGRAPHS BOLD */
   
   /* PARAGRAPHS MEDIUM */
   .p1-medium {
-    @apply font-medium text-[18px] leading-[28px]
+    @apply font-medium text-lg
   }
   
   .p3-medium {
-    @apply font-mediumtext-[14px] leading-[20px]
+    @apply font-medium text-sm
   }
   
   .p4-medium {
-    @apply font-medium text-[12px] leading-[16px]
+    @apply font-medium text-xs
   }
   /* PARAGRAPHS MEDIUM */
   
   /* PARAGRAPHS REGULAR */
   .p1-regular {
-    @apply font-medium text-[18px] leading-[28px]
+    @apply font-medium text-lg
   }
   
   .p2-regular {
-    @apply font-medium text-[16px] leading-[24px]
+    @apply font-medium text-base
   }
   
   .p3-regular {
-    @apply font-medium text-[14px] leading-[20px]
+    @apply font-medium text-sm
   }
   
   .p4-regular {
-    @apply font-medium text-[12px] leading-[16px]
+    @apply font-medium text-xs
   }
   /* PARAGRAPHS REGULAR */
 
@@ -174,4 +172,13 @@
     @apply font-normal text-[10px] leading-[12.1px]
   }
   /* SUBTITLE SMALL */
+
+  /* BUTTONS */
+  .btn {
+    @apply text-sm gap-2 px-3.5 py-2.5 w-full
+  }
+  
+  .btn-secodary-shadow {
+    @apply shadow-btn-secondary-shadow-1 
+  }
 }
