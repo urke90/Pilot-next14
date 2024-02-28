@@ -16,8 +16,19 @@ import { Button } from '@/components/ui/button';
 
 const Home: React.FC = () => {
   return (
-    <div>
-      <Button>dsadasdasdsa</Button>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100vh',
+      }}
+    >
+      {/* <Button>dsadasdasdsa</Button> */}
+      <h2 className="h2-bold">this is some text</h2>
+      <p className="p1-medium">Paragraph 1 Medium</p>
     </div>
   );
 };
