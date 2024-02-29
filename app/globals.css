@@ -2,32 +2,174 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    /* PRIMARY */
+    --primary-gredient: linear-gradient(90deg, #43b7fe 0%, #4f48e6 100%);
+    --primary-500: #42bbff;
+    --primary-800: #0c3247;
+    --primary-900: #42bbff1a;
+    /* PRIMARY */
+
+    /* BLACK */
+    --black-600: #2e3757;
+    --black-700: #1d2032;
+    --black-800: #131625;
+    --black-900: #10121e; /* there was some border in figma, check later */
+    /* BLACK */
+
+    /* WHITE */
+    --white-100: #ffffff;
+    --white-300: #adb3cc;
+    --white-500: #55597d;
+    /* WHITE */
+
+    /* PURPLE */
+    --purple-500: #9542ff;
+    --purple-900: #9542ff1a;
+    /* PURPLE */
+
+    /* GREEN */
+    --green-400: #68d1bf;
+    --green-500: #42ff77;
+    --green-900: #42ff771a;
+    /* GREEN */
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* HEADINGS */
+  .h1-bold {
+    @apply font-bold text-[32px] leading-[40px];
   }
+
+  .h2-bold {
+    @apply font-bold text-2xl;
+  }
+
+  .h1-medium {
+    @apply font-medium text-xl;
+  }
+
+  .h2-medium {
+    @apply font-medium text-base;
+  }
+  /* HEADINGS */
+
+  /* PARAGRAPHS BOLD */
+  .p1-bold {
+    @apply font-bold text-lg;
+  }
+
+  .p2-bold {
+    @apply font-bold text-base;
+  }
+  .p3-bold {
+    @apply font-bold text-sm;
+  }
+  /* PARAGRAPHS BOLD */
+
+  /* PARAGRAPHS MEDIUM */
+  .p1-medium {
+    @apply font-medium text-lg;
+  }
+
+  .p3-medium {
+    @apply font-medium text-sm;
+  }
+
+  .p4-medium {
+    @apply font-medium text-xs;
+  }
+  /* PARAGRAPHS MEDIUM */
+
+  /* PARAGRAPHS REGULAR */
+  .p1-regular {
+    @apply font-medium text-lg;
+  }
+
+  .p2-regular {
+    @apply font-medium text-base;
+  }
+
+  .p3-regular {
+    @apply font-medium text-sm;
+  }
+
+  .p4-regular {
+    @apply font-medium text-xs;
+  }
+  /* PARAGRAPHS REGULAR */
+
+  /* SUBTITLE SMALL */
+  .subtitle-small {
+    @apply font-normal text-[10px] leading-[12.1px];
+  }
+  /* SUBTITLE SMALL */
 }
