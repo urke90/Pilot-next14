@@ -28,7 +28,7 @@ const Home: React.FC = () => {
       }}
     >
       <div className="w-[400px] ">
-        <Button variant="secondary">Login</Button>
+        <Button variant="primary">Login</Button>
       </div>
       {/* <h2 className="h2-bold">this is some text</h2>
       <p className="p1-medium">Paragraph 1 Medium</p> */}
