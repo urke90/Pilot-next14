@@ -99,7 +99,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-black-900 text-white-100;
   }
 }
 

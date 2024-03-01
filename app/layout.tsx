@@ -20,12 +20,14 @@ const RootLayout = async ({
 }>) => {
   const session = await getServerSession();
 
-  console.log('session', session);
+  // console.log('session', session);
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <main className="h-screen ">{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
