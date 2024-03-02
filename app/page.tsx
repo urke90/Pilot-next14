@@ -27,9 +27,7 @@ const Home: React.FC = () => {
         height: '100vh',
       }}
     >
-      <div className="w-[400px] ">
-        <Button variant="primary">Login</Button>
-      </div>
+      <div className="w-[400px] ">Home Page</div>
       {/* <h2 className="h2-bold">this is some text</h2>
       <p className="p1-medium">Paragraph 1 Medium</p> */}
     </div>
@@ -37,4 +35,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-

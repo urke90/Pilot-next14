@@ -17,7 +17,7 @@ const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       credentials: {
-        username: {
+        email: {
           label: 'Email',
           type: 'text',
           placeholder: 'Enter your email address',
@@ -25,9 +25,6 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        console.log('credentials', credentials);
-        console.log('req', req);
-
         // const user: User = {
         //   id: '1',
         //   name: 'J Smith',
@@ -40,6 +37,12 @@ const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async signIn(params) {
+      console.log('params', params);
+      return '';
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
