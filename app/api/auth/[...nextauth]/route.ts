@@ -16,6 +16,8 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_SECRET ?? '',
     }),
     CredentialsProvider({
+      name: 'signin',
+      id: 'signin',
       credentials: {
         email: {
           label: 'Email',
@@ -25,6 +27,34 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
+        // console.log('credentials', credentials);
+        // const user: User = {
+        //   id: '1',
+        //   name: 'J Smith',
+        //   email: 'jsmith@example.com',
+        //   image: '',
+        // };
+        return null;
+        // return user;
+        // return null;
+      },
+    }),
+    CredentialsProvider({
+      name: 'signup',
+      id: 'signup',
+      credentials: {
+        fullname: {},
+        email: {
+          // label: 'Email',
+          // type: 'text',
+          // placeholder: 'Enter your email address',
+        },
+        password: {
+          //  label: 'Password', type: 'password'
+        },
+      },
+      async authorize(credentials, req) {
+        // console.log('credentials', credentials);
         // const user: User = {
         //   id: '1',
         //   name: 'J Smith',
