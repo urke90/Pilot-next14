@@ -1,7 +1,10 @@
-import NextAuth, { User, type NextAuthOptions } from 'next-auth';
+import NextAuth, { type DefaultUser, type NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+import User, { IUser } from '@/models/User';
+import { connectToMongoDB } from '@/lib/database/mongodb';
 
 // ----------------------------------------------------------------
 
@@ -27,16 +30,33 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        // console.log('credentials', credentials);
-        // const user: User = {
-        //   id: '1',
-        //   name: 'J Smith',
-        //   email: 'jsmith@example.com',
-        //   image: '',
-        // };
+        console.log('credentials', credentials);
+
+        let user: IUser | null = null;
+
+        try {
+          await connectToMongoDB();
+
+          // ? Should the password be encrypted when
+          user = await User.findOne({
+            email: credentials?.email,
+            password: credentials?.password,
+          });
+
+          console.log('user from mongo', user);
+        } catch (error) {
+          console.log('Error fetching user from MongoDB', error);
+        }
+
+        // Have to check this as well since TS file for MongoDB says Document._id is optional ---> string | undefined
+        if (user) {
+          return {
+            ...user,
+            id: user?._id,
+          };
+        }
+
         return null;
-        // return user;
-        // return null;
       },
     }),
     CredentialsProvider({
@@ -72,6 +92,13 @@ const authOptions: NextAuthOptions = {
       console.log('params', params);
       return '';
     },
+  },
+  pages: {
+    signIn: '/login',
+    // signOut: string
+    // error: string
+    // verifyRequest: string
+    // newUser: string
   },
 };
 
