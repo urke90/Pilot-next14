@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 
 // ----------------------------------------------------------------
 
+// LEFT JUST IN CASE ---> REMOVE IF CUSTOM LOGIN PAGE WORSK AS EXPECTED
+
 const Login = () => {
   const email = useRef('');
   const password = useRef('');

@@ -1,9 +1,12 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
 import { useRef } from 'react';
-
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+// components
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 // ----------------------------------------------------------------
 
@@ -23,33 +26,40 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen border-2 border-red-500">
-      <div className="m-auto mt-40 flex w-[382px] flex-col  border-2">
-        <h1 className="h1-bold text-center">GitNote</h1>
+    <div className="h-screen">
+      <div className="m-auto mt-20 flex w-[382px] flex-col">
+        <div className="mb-40 flex justify-center">
+          <Image
+            src="/assets/images/Logo.svg"
+            alt="Logo"
+            width={164}
+            height={41}
+          />
+        </div>
         <div>
           <div className="mb-5">
             <h2 className="h2-bold">Login</h2>
           </div>
 
           <form action="" onSubmit={handleSubmit}>
-            <div className="mb-2 flex flex-col">
-              <label htmlFor="">Email</label>
-              <input
-                className="text-black-900"
-                type="text"
-                name="email"
+            <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="email" className="p3-medium">
+                Email
+              </Label>
+              <Input
+                type="email"
+                id="email"
                 placeholder="Enter your email address"
-                onChange={(e) => (email.current = e.target.value)}
               />
             </div>
-            <div className="flex flex-col">
-              <label htmlFor="">Password</label>
-              <input
-                className="text-black-900"
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="password" className="p3-medium">
+                Password
+              </Label>
+              <Input
                 type="password"
-                name="password"
+                id="password"
                 placeholder="Enter your password"
-                onChange={(e) => (password.current = e.target.value)}
               />
             </div>
             <div className="my-4">

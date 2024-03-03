@@ -106,70 +106,70 @@
 @layer utilities {
   /* HEADINGS */
   .h1-bold {
-    @apply font-bold text-[32px] leading-[40px];
+    @apply font-bold text-[32px] leading-[40px] text-white-300;
   }
 
   .h2-bold {
-    @apply font-bold text-2xl;
+    @apply font-bold text-2xl text-white-300;
   }
 
   .h1-medium {
-    @apply font-medium text-xl;
+    @apply font-medium text-xl text-white-300;
   }
 
   .h2-medium {
-    @apply font-medium text-base;
+    @apply font-medium text-base text-white-300;
   }
   /* HEADINGS */
 
   /* PARAGRAPHS BOLD */
   .p1-bold {
-    @apply font-bold text-lg;
+    @apply font-bold text-lg text-white-300;
   }
 
   .p2-bold {
-    @apply font-bold text-base;
+    @apply font-bold text-base text-white-300;
   }
   .p3-bold {
-    @apply font-bold text-sm;
+    @apply font-bold text-sm text-white-300;
   }
   /* PARAGRAPHS BOLD */
 
   /* PARAGRAPHS MEDIUM */
   .p1-medium {
-    @apply font-medium text-lg;
+    @apply font-medium text-lg text-white-300;
   }
 
   .p3-medium {
-    @apply font-medium text-sm;
+    @apply font-medium text-sm text-white-300;
   }
 
   .p4-medium {
-    @apply font-medium text-xs;
+    @apply font-medium text-xs text-white-300;
   }
   /* PARAGRAPHS MEDIUM */
 
   /* PARAGRAPHS REGULAR */
   .p1-regular {
-    @apply font-medium text-lg;
+    @apply font-medium text-lg text-white-300;
   }
 
   .p2-regular {
-    @apply font-medium text-base;
+    @apply font-medium text-base text-white-300;
   }
 
   .p3-regular {
-    @apply font-medium text-sm;
+    @apply font-medium text-sm text-white-300;
   }
 
   .p4-regular {
-    @apply font-medium text-xs;
+    @apply font-medium text-xs text-white-300;
   }
   /* PARAGRAPHS REGULAR */
 
   /* SUBTITLE SMALL */
   .subtitle-small {
-    @apply font-normal text-[10px] leading-[12.1px];
+    @apply font-normal text-[10px] leading-[12.1px] text-white-300;
   }
   /* SUBTITLE SMALL */
 }
