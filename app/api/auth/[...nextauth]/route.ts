@@ -1,4 +1,4 @@
-import NextAuth, { type DefaultUser, type NextAuthOptions } from 'next-auth';
+import NextAuth, { type NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -52,38 +52,11 @@ const authOptions: NextAuthOptions = {
         if (user) {
           return {
             ...user,
-            id: user?._id,
+            id: user._id,
           };
         }
-
+        // redirect to /signup/regiseter
         return null;
-      },
-    }),
-    CredentialsProvider({
-      name: 'signup',
-      id: 'signup',
-      credentials: {
-        fullname: {},
-        email: {
-          // label: 'Email',
-          // type: 'text',
-          // placeholder: 'Enter your email address',
-        },
-        password: {
-          //  label: 'Password', type: 'password'
-        },
-      },
-      async authorize(credentials, req) {
-        // console.log('credentials', credentials);
-        // const user: User = {
-        //   id: '1',
-        //   name: 'J Smith',
-        //   email: 'jsmith@example.com',
-        //   image: '',
-        // };
-        return null;
-        // return user;
-        // return null;
       },
     }),
   ],

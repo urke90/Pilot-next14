@@ -1,19 +1,29 @@
 import { Schema, model, models, Document, type Model } from 'mongoose';
 
-// ? Should this be moved to types ? Will move after finishing UserSchema if needed
 export interface IUser extends Document {
+  _id: string;
   fullName: string;
   email: string;
   password: string;
   avatarUrl?: string;
   portfolioUrl: string;
-  // next ones i am not sure what exactly would the type be since there are checkboxes
-  learningGoals?: any[];
-  knowledgeLevel?: any[];
-  techStack: any[];
-  availableTime: Date; // ? probably but not sure...
-  availabilityForProject: boolean;
+  learningGoals?: { isChecked: boolean; goal: string };
+  knowledgeLevel?: string[];
+  techStack: string;
+  projectAvailability: boolean;
+  startDate: Date;
+  endDate: Date;
 }
+
+interface ILearningGoals extends Document {
+  isChecked: boolean;
+  goal: string;
+}
+
+const LearningGoalsSchema = new Schema<ILearningGoals>({
+  isChecked: { type: Boolean, required: true },
+  goal: { type: String, required: true },
+});
 
 /**
  * I am not sure about
@@ -26,6 +36,8 @@ export interface IUser extends Document {
  * * I haven't added these to the UserSchema yet since i am not sure and i need these ones so i could finish
  * * Day 5 - Database Architecture & Server Actions
  */
+
+// objectId ----> wrapper oko ID da moze da se radi reference
 
 const UserSchema: Schema = new Schema<IUser>({
   fullName: {
@@ -42,8 +54,11 @@ const UserSchema: Schema = new Schema<IUser>({
   },
   avatarUrl: String,
   portfolioUrl: String,
-  // ? what should this be ???
-  learningGoals: [],
+  learningGoals: [LearningGoalsSchema],
+  knowledgeLevel: [String],
+  techStack: String,
+  projectAvailability: Boolean,
+  startDate: Date,
 });
 
 const User: Model<IUser> = models.User || model<IUser>('User', UserSchema);

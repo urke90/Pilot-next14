@@ -38,10 +38,10 @@ const Login = () => {
         </div>
         <div>
           <div className="mb-5">
-            <h2 className="h2-bold">Login</h2>
+            <h2 className="h2-bold text-white-100">Login</h2>
           </div>
 
-          <form action="" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
               <Label htmlFor="email" className="p3-medium">
                 Email

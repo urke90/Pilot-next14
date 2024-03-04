@@ -14,7 +14,19 @@ import { Button } from '@/components/ui/button';
 // feat / tailwind - styling;
 // feat / authentication;
 
+// app/(auth)/login/page.tsx implement RHF + ZOD ili Yup
+// REGIISTE
 const Home: React.FC = () => {
+  const handlSubmit = async () => {
+    // connect to mongo
+    // provera da li user vec postoji
+    // ako ne postoji onda create user
+    // ako postoji baca se/ prikazuje error
+    // ZA REGISTER
+    // 1. kada unese podatke da ga redirect na /login ---> proces dalje
+    // 2. drugi slucaj da sam posle registera opet signIn func za login i tako se pravi session
+  };
+
   return (
     <div
       style={{
