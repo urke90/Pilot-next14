@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 
 // ----------------------------------------------------------------
 
-const Login = () => {
+const SignUp = () => {
   const email = useRef('');
   const password = useRef('');
 
@@ -37,11 +37,19 @@ const Login = () => {
             height={41}
           />
         </div>
-        <div className="mb-5">
-          <h2 className="h2-bold text-white-100">Login</h2>
-        </div>
+        <h2 className="h2-bold mb-5 text-white-100">Create an account</h2>
 
         <form onSubmit={handleSubmit}>
+          <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="full-name" className="p3-medium">
+              Fullname
+            </Label>
+            <Input
+              type="text"
+              id="full-name"
+              placeholder="Enter your full name"
+            />
+          </div>
           <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="email" className="p3-medium">
               Email
@@ -63,14 +71,14 @@ const Login = () => {
             />
           </div>
           <div className="mb-6">
-            <Button type="submit">Login</Button>
+            <Button type="submit">Create an account</Button>
           </div>
         </form>
         <Link
-          href="/sign-up"
+          href="/login"
           className="mb-6 text-center text-sm text-white-300 underline"
         >
-          I don&apos;t have an account
+          Already have an acount
         </Link>
         <p className="p4-regular mb-6 text-center">or</p>
         <Button
@@ -104,4 +112,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
