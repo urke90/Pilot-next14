@@ -38,10 +38,14 @@ const authOptions: NextAuthOptions = {
           await connectToMongoDB();
 
           // ? Should the password be encrypted when
+          // TODO
+          // after fetch compater passwords
+
           user = await User.findOne({
             email: credentials?.email,
-            password: credentials?.password,
+            // password: credentials?.password,  trazimo samo po emailu
           });
+          // after user is fetch we compare the passwords with bycript compare
 
           console.log('user from mongo', user);
         } catch (error) {
@@ -62,14 +66,16 @@ const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn(params) {
+      // TODO
+      // 1. if singined in with google or github  check if user exists in monogo DB. if exists return true, if not create new user, and return true
       console.log('params', params);
-      return '';
+      return true;
     },
   },
   pages: {
     signIn: '/login',
     // signOut: string
-    // error: string
+    error: '/login',
     // verifyRequest: string
     // newUser: string
   },

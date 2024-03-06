@@ -1,0 +1,9 @@
+import z from 'zod';
+
+export const signUpFormSchema = z.object({
+  fullName: z
+    .string()
+    .min(3, { message: 'Full Name must be at least 3 characters long!' }),
+  email: z.string().email('Please enter valdi email address!'),
+  password: z.string().min(6, 'Password must be at least 6 characters long!'),
+});

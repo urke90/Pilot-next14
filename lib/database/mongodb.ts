@@ -23,6 +23,7 @@ export const connectToMongoDB = async () => {
       dbName: 'GITHUB_NOTE',
     });
     isConnected = true;
+    console.log('mongodb connected successfully!');
   } catch (error) {
     console.log('Error connecting to MongoDB went wrong!', error);
   }

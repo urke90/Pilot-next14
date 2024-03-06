@@ -1,29 +1,54 @@
 'use client';
 
-import { useRef } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-// components
+// components shadcn
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 // ----------------------------------------------------------------
 
+// * outside of component since it will be recreated on every rerender
+const loginFormSchema = z.object({
+  email: z.string().email('Please eneter valid email address!'),
+  password: z.string().min(6, 'Password must be at least 6 characters long!'),
+});
+
 const Login = () => {
-  const email = useRef('');
-  const password = useRef('');
+  type TLoginFormData = z.infer<typeof loginFormSchema>;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const loginForm = useForm<TLoginFormData>({
+    resolver: zodResolver(loginFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
-    const result = await signIn('signin', {
-      email: email.current,
-      password: password.current,
-    });
-
-    // console.log('result u signinu', result);
+  const onSubmit = async (data: TLoginFormData) => {
+    const { email, password } = data;
+    try {
+      const result = await signIn('signin', {
+        email,
+        password,
+        // redirect: false,
+      });
+      console.log('Result SignIn LOGIN PAGE', result);
+    } catch (error) {
+      console.log('Error LOGIN PAGE', error);
+    }
   };
 
   return (
@@ -40,32 +65,47 @@ const Login = () => {
         <div className="mb-5">
           <h2 className="h2-bold text-white-100">Login</h2>
         </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="email" className="p3-medium">
-              Email
-            </Label>
-            <Input
-              type="email"
-              id="email"
-              placeholder="Enter your email address"
-            />
-          </div>
-          <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="password" className="p3-medium">
-              Password
-            </Label>
-            <Input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-            />
-          </div>
-          <div className="mb-6">
-            <Button type="submit">Login</Button>
-          </div>
-        </form>
+        <Form {...loginForm}>
+          <form onSubmit={loginForm.handleSubmit(onSubmit)}>
+            <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
+              <FormField
+                name="email"
+                control={loginForm.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      type="email"
+                      placeholder="Enter your email address"
+                      {...field}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
+              <FormField
+                name="password"
+                control={loginForm.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="p3-medium">Password</FormLabel>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      {...field}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mb-6">
+              <Button type="submit">Login</Button>
+            </div>
+          </form>
+        </Form>
         <Link
           href="/sign-up"
           className="mb-6 text-center text-sm text-white-300 underline"
