@@ -1,8 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 // components
@@ -20,10 +19,12 @@ import {
 import { createNewUser } from '@/lib/actions/user-actions';
 import { signUpFormSchema } from '@/lib/zod/user-schema';
 // models
+import { signInGoogle, signInGithub } from '@/lib/actions/auth';
 
 // ----------------------------------------------------------------
 
 const SignUp = () => {
+  const router = useRouter();
   type TSignUpFormData = z.infer<typeof signUpFormSchema>;
 
   const signUpForm = useForm<TSignUpFormData>({
@@ -37,13 +38,19 @@ const SignUp = () => {
 
   const onSubmit = async (data: TSignUpFormData) => {
     console.log('data', data);
+    // * delete after auth is fixed
     // const { email, fullName, password } = data;
     // create new User if not existing
     // throw error or redirect to login
     // afet create redirect to /login
     // poslati SS logike
-    await createNewUser(data);
-    redirect('/login');
+
+    try {
+      await createNewUser(data);
+      router.push('/');
+    } catch (error) {
+      console.log('Error sign up page, create new user', error);
+    }
   };
 
   return (
@@ -126,7 +133,7 @@ const SignUp = () => {
         <Button
           variant="secondary"
           className="mb-4 text-white-300"
-          onClick={() => signIn('google')}
+          onClick={() => signInGoogle()}
         >
           <Image
             src="/assets/images/google.png"
@@ -139,7 +146,7 @@ const SignUp = () => {
         <Button
           variant="secondary"
           className="text-sm text-white-300"
-          onClick={() => signIn('github')}
+          onClick={() => signInGithub()}
         >
           <Image
             src="/assets/images/github.png"

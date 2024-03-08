@@ -43,12 +43,6 @@ export const createNewUser = async ({
 
     await connectToMongoDB();
 
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      throw new Error('User with provided email already exists!');
-    }
-
     const salt = await genSalt(10);
     const hashedPassword = await hash(password, salt);
 
@@ -63,6 +57,5 @@ export const createNewUser = async ({
     // return newUser;
   } catch (error) {
     console.log('Error creating new user', error);
-    throw new Error('An unexpected error occurred while creating the new user');
   }
 };

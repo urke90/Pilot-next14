@@ -81,8 +81,8 @@ const config = {
         },
       },
       boxShadow: {
-        'btn-primary-shadow': ' 0px 0px 0px 1px #121212',
-        'btn-secondary-shadow': '0px 1px 3px 0px #1212121A',
+        'tw-primary-shadow': ' 0px 0px 0px 1px #121212',
+        'tw-secondary-shadow': '0px 1px 3px 0px #1212121A',
       },
       // fontFamily: {
       //   inter: ['Inter',] // Dodao sam Inter font kroz app layout tsx

@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 // components shadcn
@@ -17,14 +16,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { loginFormSchema } from '@/lib/zod/user-schema';
+import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 
 // ----------------------------------------------------------------
-
-// * outside of component since it will be recreated on every rerender
-const loginFormSchema = z.object({
-  email: z.string().email('Please eneter valid email address!'),
-  password: z.string().min(6, 'Password must be at least 6 characters long!'),
-});
 
 const Login = () => {
   type TLoginFormData = z.infer<typeof loginFormSchema>;
@@ -40,12 +35,11 @@ const Login = () => {
   const onSubmit = async (data: TLoginFormData) => {
     const { email, password } = data;
     try {
-      const result = await signIn('signin', {
+      const result = await signIn('credentials', {
         email,
         password,
-        // redirect: false,
+        // redirect: false, // figure out later
       });
-      console.log('Result SignIn LOGIN PAGE', result);
     } catch (error) {
       console.log('Error LOGIN PAGE', error);
     }
@@ -116,7 +110,7 @@ const Login = () => {
         <Button
           variant="secondary"
           className="mb-4 text-white-300"
-          onClick={() => signIn('google')}
+          onClick={() => signInGoogle()}
         >
           <Image
             src="/assets/images/google.png"
@@ -129,7 +123,7 @@ const Login = () => {
         <Button
           variant="secondary"
           className="text-sm text-white-300"
-          onClick={() => signIn('github')}
+          onClick={() => signInGithub()}
         >
           <Image
             src="/assets/images/github.png"

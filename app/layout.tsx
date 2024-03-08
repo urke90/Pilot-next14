@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 // fonts
 import { inter } from './ui/fonts';
 import SessionProvider from '@/components/auth/SessionProvider';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 
 import './globals.css';
 
@@ -18,9 +18,9 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const session = await getServerSession();
+  const session = await auth();
 
-  // console.log('session', session);
+  console.log('session', session);
 
   return (
     <html lang="en">

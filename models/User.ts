@@ -34,19 +34,11 @@ const UserSchema: Schema = new Schema<IUser>({
   email: {
     type: String,
     required: [true, 'Please provide a valid email address!'],
+    unique: true,
   },
-  password: {
-    type: String,
-    required: [true, 'Please provide password!'],
-  },
+  password: String,
   avatarUrl: String,
   portfolioUrl: String,
-  // learningGoals: [
-  //   {
-  //     isChecked: { type: Boolean, required: true },
-  //     goal: { type: String, required: true },
-  //   },
-  // ],
   learningGoals: [LearningGoalsSchema],
   knowledgeLevel: [String],
   techStack: String,
