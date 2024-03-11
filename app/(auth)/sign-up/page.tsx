@@ -17,17 +17,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { createNewUser } from '@/lib/actions/user-actions';
-import { signUpFormSchema } from '@/lib/zod/user-schema';
+import { ISignUpFormData, signUpFormSchema } from '@/lib/zod/user-schema';
 // models
-import { signInGoogle, signInGithub } from '@/lib/actions/auth';
+import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 
 // ----------------------------------------------------------------
 
 const SignUp = () => {
   const router = useRouter();
-  type TSignUpFormData = z.infer<typeof signUpFormSchema>;
 
-  const signUpForm = useForm<TSignUpFormData>({
+  const signUpForm = useForm<ISignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       fullName: '',
@@ -36,7 +35,7 @@ const SignUp = () => {
     },
   });
 
-  const onSubmit = async (data: TSignUpFormData) => {
+  const onSubmit = async (data: ISignUpFormData) => {
     console.log('data', data);
     // * delete after auth is fixed
     // const { email, fullName, password } = data;
@@ -46,7 +45,18 @@ const SignUp = () => {
     // poslati SS logike
 
     try {
-      await createNewUser(data);
+      const result = await createNewUser(data);
+      if (!result.ok) {
+        if (result.status === 409) console.log('Email vec postoji');
+
+        return;
+      }
+
+      await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+      });
+
       router.push('/');
     } catch (error) {
       console.log('Error sign up page, create new user', error);

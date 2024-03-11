@@ -47,6 +47,6 @@ const UserSchema: Schema = new Schema<IUser>({
   endDate: Date,
 });
 
-const User: Model<IUser> = models.User || model<IUser>('User', UserSchema);
+const User: Model<IUser> = models?.User || model<IUser>('User', UserSchema);
 
 export default User;

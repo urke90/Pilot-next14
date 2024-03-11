@@ -4,8 +4,8 @@ import GoogleProvider from 'next-auth/providers/google';
 import { compareSync } from 'bcryptjs';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { connectToMongoDB } from './lib/database/mongodb';
-import User, { type IUser } from './models/User';
-import { loginFormSchema } from './lib/zod/user-schema';
+import User from './models/User';
+
 // import { MongoDBAdapter } from '@auth/mongodb-adapter';  implement later
 // import clientPromise from './lib/database/mongoClientPromise';
 
@@ -36,49 +36,23 @@ export const {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const validateCredentials = loginFormSchema.safeParse({
-          email: credentials.email,
-          password: credentials.password,
-        });
-
-        if (!validateCredentials.success) {
-          throw new Error(
-            'Invalid email or password!',
-            validateCredentials.error
-          );
-        }
-
-        let user: IUser | null = null;
-
         try {
           await connectToMongoDB();
 
-          user = await User.findOne({
+          const user = await User.findOne({
             email: credentials?.email,
-          });
+          }).lean();
 
-          // console.log('user u authorize', user);
-          if (!user) {
+          if (!user?.password) return null;
+
+          if (!compareSync(credentials.password as string, user.password))
             return null;
-          }
 
-          if (
-            user.password &&
-            compareSync(credentials.password as string, user.password)
-          ) {
-            return {
-              ...user,
-              id: user._id,
-            };
-          }
-
-          // after user is fetch we compare the passwords with bycript compare
-          // console.log('user from mongo', user);
+          return user;
         } catch (error) {
           console.log('Error fetching user from MongoDB', error);
         }
 
-        // redirect to /signup/regiseter
         return null;
       },
     }),
@@ -88,33 +62,38 @@ export const {
       // Ako se prijavljujemo s Google-om ili Githubom, moramo napraviti racun i u nasoj bazi ako vec ne postoji
       // Ako se prijavljujemo s credentials, tu ne radi nista, samo return true
 
-      if (account?.provider !== 'credentials') {
-        try {
-          await connectToMongoDB();
+      if (account?.provider === 'credentials') return true;
 
-          const existingUser = await User.findOne({ email: user.email });
+      try {
+        await connectToMongoDB();
 
-          if (existingUser) return true;
+        const existingUser = await User.findOne({ email: user.email });
 
-          const newUser = new User({
-            fullName: user.name || '',
-            email: user.email || '',
-            avatarUrl: user.image || '',
-          });
+        if (existingUser) return true;
 
-          const createdUser = await newUser.save();
-          console.log('createdUser', createdUser);
-        } catch (error) {
-          console.log('Error with sign in with provider', error);
-          throw error;
-        }
+        const newUser = new User({
+          fullName: user.name || '',
+          email: user.email || '',
+          avatarUrl: user.image || '',
+        });
+
+        await newUser.save();
+
+        return true;
+      } catch (error) {
+        console.log('Error with sign in with provider', error);
+        return false;
       }
 
       // Provjeri jel postoji korisnicki racun s tim mailom
       // Ako postoji, return true, sve svima
       // Ako ne postoji, kreiraj ga, i returnaj true ako sve stima,
       // Ako dodje do errora, ofc, return false
-      return true;
+    },
+    authorized({ auth }) {
+      const isAuthenticated = !!auth?.user;
+
+      return isAuthenticated;
     },
   },
   pages: {

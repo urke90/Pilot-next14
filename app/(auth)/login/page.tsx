@@ -35,12 +35,16 @@ const Login = () => {
   const onSubmit = async (data: TLoginFormData) => {
     const { email, password } = data;
     try {
-      const result = await signIn('credentials', {
+      await signIn('credentials', {
         email,
         password,
-        // redirect: false, // figure out later
+        redirect: false,
       });
     } catch (error) {
+      if (error instanceof Error) {
+        console.log('Netocna lozinka ili mail');
+        // Pokazi error da ne stima nesto
+      }
       console.log('Error LOGIN PAGE', error);
     }
   };

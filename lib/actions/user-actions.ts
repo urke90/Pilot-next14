@@ -5,6 +5,8 @@ import User from '@/models/User';
 
 import { connectToMongoDB } from '../database/mongodb';
 import { signUpFormSchema } from '../zod/user-schema';
+import { MongoError, MongoServerError } from 'mongodb';
+import { MongooseError } from 'mongoose';
 
 // ----------------------------------------------------------------
 
@@ -30,17 +32,6 @@ export const createNewUser = async ({
   password: string;
 }) => {
   try {
-    const validatedSchema = signUpFormSchema.safeParse({
-      fullName,
-      email,
-      password,
-    });
-
-    if (!validatedSchema.success) {
-      // not suer how this works ???
-      throw new Error('Validation failed occured!', validatedSchema.error);
-    }
-
     await connectToMongoDB();
 
     const salt = await genSalt(10);
@@ -54,8 +45,14 @@ export const createNewUser = async ({
 
     await newUser.save();
 
-    // return newUser;
+    return { ok: true, status: 201 };
   } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === 'MongoError' && (error as MongoError).code === 11000)
+        return { ok: false, status: 409 };
+    }
+
     console.log('Error creating new user', error);
+    return { ok: false, status: 500 };
   }
 };
