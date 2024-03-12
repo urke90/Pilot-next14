@@ -1,30 +1,20 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
 // components shadcn
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { loginFormSchema } from '@/lib/zod/user-schema';
+import RHFInput from '@/components/RHFInputs/RHFInput';
+import { Form } from '@/components/ui/form';
+import { loginFormSchema, type ILoginFormData } from '@/lib/zod/user-schema';
 import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 
 // ----------------------------------------------------------------
 
 const Login = () => {
-  type TLoginFormData = z.infer<typeof loginFormSchema>;
-
-  const loginForm = useForm<TLoginFormData>({
+  const loginForm = useForm<ILoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',
@@ -32,8 +22,9 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (data: TLoginFormData) => {
+  const onSubmit = async (data: ILoginFormData) => {
     const { email, password } = data;
+    console.log('datatata', data);
     try {
       await signIn('credentials', {
         email,
@@ -66,37 +57,19 @@ const Login = () => {
         <Form {...loginForm}>
           <form onSubmit={loginForm.handleSubmit(onSubmit)}>
             <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
-              <FormField
+              <RHFInput
                 name="email"
-                control={loginForm.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                      type="email"
-                      placeholder="Enter your email address"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                type="email"
+                label="Email"
+                placeholder="Enter your email address"
               />
             </div>
             <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
-              <FormField
+              <RHFInput
                 name="password"
-                control={loginForm.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="p3-medium">Password</FormLabel>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                type="password"
+                label="Password"
+                placeholder="Enter your password"
               />
             </div>
             <div className="mb-6">

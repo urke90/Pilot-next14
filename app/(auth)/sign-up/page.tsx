@@ -2,22 +2,15 @@
 
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 // components
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
+import RHFInput from '@/components/RHFInputs/RHFInput';
 import { createNewUser } from '@/lib/actions/user-actions';
-import { ISignUpFormData, signUpFormSchema } from '@/lib/zod/user-schema';
+import { signUpFormSchema, type ISignUpFormData } from '@/lib/zod/user-schema';
 // models
 import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 
@@ -46,6 +39,7 @@ const SignUp = () => {
 
     try {
       const result = await createNewUser(data);
+      console.log('result', result);
       if (!result.ok) {
         if (result.status === 409) console.log('Email vec postoji');
 
@@ -78,54 +72,27 @@ const SignUp = () => {
         <Form {...signUpForm}>
           <form onSubmit={signUpForm.handleSubmit(onSubmit)}>
             <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
-              <FormField
+              <RHFInput
                 name="fullName"
-                control={signUpForm.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <Input
-                      type="text"
-                      placeholder="Enter your full name"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Full Name"
+                type="text"
+                placeholder="Enter your full name"
               />
             </div>
             <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
-              <FormField
+              <RHFInput
                 name="email"
-                control={signUpForm.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                      type="email"
-                      placeholder="Enter your email address"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Email"
+                type="email"
+                placeholder="Enter your email address"
               />
             </div>
             <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
-              <FormField
+              <RHFInput
                 name="password"
-                control={signUpForm.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="p3-medium">Password</FormLabel>
-                    <Input
-                      type="password"
-                      placeholder="Enter your password"
-                      {...field}
-                    />
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label="Password"
+                type="password"
+                placeholder="Enter your password"
               />
             </div>
             <div className="mb-6">

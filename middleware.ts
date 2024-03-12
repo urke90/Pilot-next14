@@ -25,6 +25,10 @@ export default auth(async (req) => {
  * - _next/image (image optimization files)
  * - favicon.ico (favicon file)
  */
+// export const config = {
+//   matcher: ['/', '/login', '/sign-up', '/onboarding'],
+// };
+
 export const config = {
-  matcher: ['/', '/login', '/sign-up', '/onboarding'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

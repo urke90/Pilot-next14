@@ -26,7 +26,7 @@ const RootLayout = async ({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <main className="h-screen ">{children}</main>
+          <main className="h-screen">{children}</main>
         </SessionProvider>
       </body>
     </html>
