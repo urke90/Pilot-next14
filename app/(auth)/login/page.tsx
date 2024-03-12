@@ -10,6 +10,7 @@ import RHFInput from '@/components/RHFInputs/RHFInput';
 import { Form } from '@/components/ui/form';
 import { loginFormSchema, type ILoginFormData } from '@/lib/zod/user-schema';
 import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
+import { toast } from 'react-toastify';
 
 // ----------------------------------------------------------------
 
@@ -24,7 +25,7 @@ const Login = () => {
 
   const onSubmit = async (data: ILoginFormData) => {
     const { email, password } = data;
-    console.log('datatata', data);
+    // console.log('datatata', data);
     try {
       await signIn('credentials', {
         email,
@@ -33,12 +34,18 @@ const Login = () => {
       });
     } catch (error) {
       if (error instanceof Error) {
-        console.log('Netocna lozinka ili mail');
-        // Pokazi error da ne stima nesto
+        toast.error('Invalid email or password!', {
+          // bodyClassName: 'bg-red-500',
+        });
       }
+
       console.log('Error LOGIN PAGE', error);
     }
   };
+
+  const { isSubmitting, isValid } = loginForm.formState;
+
+  const disabledSubmitBtn = isSubmitting || !isValid;
 
   return (
     <div className="h-screen">
@@ -73,7 +80,9 @@ const Login = () => {
               />
             </div>
             <div className="mb-6">
-              <Button type="submit">Login</Button>
+              <Button type="submit" disabled={disabledSubmitBtn}>
+                Login
+              </Button>
             </div>
           </form>
         </Form>

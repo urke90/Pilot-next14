@@ -11,6 +11,7 @@ import { Form } from '@/components/ui/form';
 import RHFInput from '@/components/RHFInputs/RHFInput';
 import { createNewUser } from '@/lib/actions/user-actions';
 import { signUpFormSchema, type ISignUpFormData } from '@/lib/zod/user-schema';
+import { toast } from 'react-toastify';
 // models
 import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 
@@ -29,21 +30,11 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data: ISignUpFormData) => {
-    console.log('data', data);
-    // * delete after auth is fixed
-    // const { email, fullName, password } = data;
-    // create new User if not existing
-    // throw error or redirect to login
-    // afet create redirect to /login
-    // poslati SS logike
-
     try {
       const result = await createNewUser(data);
       console.log('result', result);
       if (!result.ok) {
-        if (result.status === 409) console.log('Email vec postoji');
-
-        return;
+        if (result.status === 409) return toast.error('Email already exists!');
       }
 
       await signIn('credentials', {
@@ -56,6 +47,10 @@ const SignUp = () => {
       console.log('Error sign up page, create new user', error);
     }
   };
+
+  const { isSubmitting, isValid } = signUpForm.formState;
+
+  const disabledSubmitBtn = isSubmitting || !isValid;
 
   return (
     <div className="h-screen">
@@ -96,7 +91,9 @@ const SignUp = () => {
               />
             </div>
             <div className="mb-6">
-              <Button type="submit">Create an account</Button>
+              <Button type="submit" disabled={disabledSubmitBtn}>
+                Create an account
+              </Button>
             </div>
           </form>
         </Form>

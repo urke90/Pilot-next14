@@ -24,34 +24,6 @@ const config = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        // primary: {
-        //   DEFAULT: "hsl(var(--primary))",
-        //   foreground: "hsl(var(--primary-foreground))",
-        // },
-        // secondary: {
-        //   DEFAULT: "hsl(var(--secondary))",
-        //   foreground: "hsl(var(--secondary-foreground))",
-        // },
-        // destructive: {
-        //   DEFAULT: "hsl(var(--destructive))",
-        //   foreground: "hsl(var(--destructive-foreground))",
-        // },
-        // muted: {
-        //   DEFAULT: "hsl(var(--muted))",
-        //   foreground: "hsl(var(--muted-foreground))",
-        // },
-        // accent: {
-        //   DEFAULT: "hsl(var(--accent))",
-        //   foreground: "hsl(var(--accent-foreground))",
-        // },
-        // popover: {
-        //   DEFAULT: "hsl(var(--popover))",
-        //   foreground: "hsl(var(--popover-foreground))",
-        // },
-        // card: {
-        //   DEFAULT: "hsl(var(--card))",
-        //   foreground: "hsl(var(--card-foreground))",
-        // },
         // custom
         primary: {
           gredient: 'var(--primary-gredient)',
@@ -80,9 +52,13 @@ const config = {
           900: 'var(--green-900)',
         },
       },
+
       boxShadow: {
         'tw-primary-shadow': ' 0px 0px 0px 1px #121212',
-        'tw-secondary-shadow': '0px 1px 3px 0px #1212121A',
+        'tw-secondary-shadow':
+          'box-shadow: 0px 1px 3px 0px #1212121A, 0px 0px 0px 1px #12121212, 0px 1px 1px 0px #1212121A',
+        'tw-input-shadow':
+          'box-shadow: 0px 0px 0px 1px #1212121A, 0px 1px 1px 0px #1212121A',
       },
       // fontFamily: {
       //   inter: ['Inter',] // Dodao sam Inter font kroz app layout tsx

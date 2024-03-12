@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 // fonts
 import { inter } from './ui/fonts';
 import SessionProvider from '@/components/auth/SessionProvider';
+import { ToastContainer } from 'react-toastify';
+
 import { auth } from '@/auth';
 
 import './globals.css';
@@ -27,6 +29,7 @@ const RootLayout = async ({
       <body className={inter.className}>
         <SessionProvider session={session}>
           <main className="h-screen">{children}</main>
+          <ToastContainer closeOnClick newestOnTop />
         </SessionProvider>
       </body>
     </html>
