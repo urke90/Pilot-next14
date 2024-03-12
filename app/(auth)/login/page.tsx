@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
   const loginForm = useForm<ILoginFormData>({
+    mode: 'onChange',
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: '',

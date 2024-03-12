@@ -11,7 +11,7 @@ export const signUpFormSchema = z.object({
 export type ISignUpFormData = z.infer<typeof signUpFormSchema>;
 
 export const loginFormSchema = z.object({
-  email: z.string().email('Please eneter valid email address!'),
+  email: z.string().email('Please enter valid email address!'),
   password: z.string().min(6, 'Password must be at least 6 characters long!'),
 });
 

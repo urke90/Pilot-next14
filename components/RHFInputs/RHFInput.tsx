@@ -34,7 +34,7 @@ const RHFInput: React.FC<IRHFInputProps> = ({
           {label && <FormLabel>{label}</FormLabel>}
           <Input type={type} {...field} {...rest} />
           {description && <FormDescription>{description}</FormDescription>}
-          <FormMessage />
+          <FormMessage className="text-red-400" />
         </FormItem>
       )}
     />

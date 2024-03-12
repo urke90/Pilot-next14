@@ -21,6 +21,7 @@ const SignUp = () => {
   const router = useRouter();
 
   const signUpForm = useForm<ISignUpFormData>({
+    mode: 'onChange',
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       fullName: '',
