@@ -14,7 +14,19 @@ import { Button } from '@/components/ui/button';
 // feat / tailwind - styling;
 // feat / authentication;
 
+// app/(auth)/login/page.tsx implement RHF + ZOD ili Yup
+// REGIISTE
 const Home: React.FC = () => {
+  const handlSubmit = async () => {
+    // connect to mongo
+    // provera da li user vec postoji
+    // ako ne postoji onda create user
+    // ako postoji baca se/ prikazuje error
+    // ZA REGISTER
+    // 1. kada unese podatke da ga redirect na /login ---> proces dalje
+    // 2. drugi slucaj da sam posle registera opet signIn func za login i tako se pravi session
+  };
+
   return (
     <div
       style={{
@@ -27,9 +39,7 @@ const Home: React.FC = () => {
         height: '100vh',
       }}
     >
-      <div className="w-[400px] ">
-        <Button variant="primary">Login</Button>
-      </div>
+      <div className="w-[400px] ">Home Page</div>
       {/* <h2 className="h2-bold">this is some text</h2>
       <p className="p1-medium">Paragraph 1 Medium</p> */}
     </div>
@@ -37,4 +47,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-
