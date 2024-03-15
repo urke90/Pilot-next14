@@ -116,6 +116,14 @@
 }
 
 @layer utilities {
+  /* FLEX */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  /* FLEX */
+
+  /* TYPOGRAPHY */
+
   /* HEADINGS */
   .h1-bold {
     @apply font-bold text-[32px] leading-[40px];
