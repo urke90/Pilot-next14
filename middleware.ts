@@ -7,15 +7,15 @@ export default auth(async (req) => {
   const isAuthenticated = !!req.auth?.user;
   const currentRoute = req.nextUrl.pathname;
 
-  if (!isAuthenticated) {
-    if (currentRoute !== '/login' && currentRoute !== '/sign-up') {
-      return NextResponse.redirect(new URL('/login', req.url));
-    }
-  } else {
-    if (currentRoute === '/login' || currentRoute === '/sign-up') {
-      return NextResponse.redirect(new URL('/', req.url));
-    }
-  }
+  // if (!isAuthenticated) {
+  //   if (currentRoute !== '/login' && currentRoute !== '/sign-up') {
+  //     return NextResponse.redirect(new URL('/login', req.url));
+  //   }
+  // } else {
+  //   if (currentRoute === '/login' || currentRoute === '/sign-up') {
+  //     return NextResponse.redirect(new URL('/', req.url));
+  //   }
+  // }
 });
 
 /**

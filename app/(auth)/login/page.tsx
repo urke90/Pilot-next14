@@ -72,7 +72,7 @@ const Login = () => {
                 placeholder="Enter your email address"
               />
             </div>
-            <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
+            <div className="mb-6   max-w-sm items-center gap-1.5">
               <RHFInput
                 name="password"
                 type="password"

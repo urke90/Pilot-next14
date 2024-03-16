@@ -1,6 +1,6 @@
 import { Schema, model, models, Document, Model } from 'mongoose';
 
-interface ILearningGoals extends Document {
+export interface ILearningGoals extends Document {
   isChecked: boolean;
   goal: string;
 }
@@ -9,7 +9,7 @@ export interface IUser extends Document {
   fullName: string;
   email: string;
   password: string;
-  avatarUrl?: string;
+  avatarImg?: string;
   portfolioUrl: string;
   learningGoals?: ILearningGoals[];
   knowledgeLevel?: string[];
@@ -37,7 +37,7 @@ const UserSchema: Schema = new Schema<IUser>({
     unique: true,
   },
   password: String,
-  avatarUrl: String,
+  avatarImg: String,
   portfolioUrl: String,
   learningGoals: [LearningGoalsSchema],
   knowledgeLevel: [String],

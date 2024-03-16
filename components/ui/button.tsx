@@ -13,6 +13,7 @@ const buttonVariants = cva(
           'rounded bg-primary-500 font-bold text-black-900 shadow-tw-primary-shadow disabled:cursor-not-allowed disabled:bg-slate-400',
         secondary:
           'font-inter shadow-tw-secondary-shadow rounded-[4px] bg-black-600 font-medium text-white-100 disabled:cursor-not-allowed disabled:bg-slate-400',
+        file: 'bg-black-700 px-3.5 py-2',
       },
     },
     defaultVariants: {

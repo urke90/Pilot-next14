@@ -130,7 +130,7 @@
   }
 
   .h2-bold {
-    @apply font-bold text-2xl;
+    @apply font-bold text-2xl text-white-100;
   }
 
   .h1-medium {
