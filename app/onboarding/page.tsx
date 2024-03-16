@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Form } from '@/components/ui/form';
 
 import Stepper from '@/components/shared/Stepper';
-import BasicInformation from '@/components/onboarding/BasicInformation';
+import BasicInformationStep from '@/components/onboarding/BasicInformationStep';
 import type { IUser } from '@/models/User';
 
 import z from 'zod';
@@ -30,6 +30,21 @@ const onboardingSchema = z.object({
 });
 
 type IUserOnboarding = z.infer<typeof onboardingSchema>;
+
+const generateTitleBasedOnStep = (step: number) => {
+  switch (step) {
+    case 1:
+      return 'Basic Information';
+    case 2:
+      return 'Add your learning goals';
+    case 3:
+      return 'Add your knowledge level';
+    case 4:
+      return 'Schedule & availability';
+    default:
+      return 'Basic Information';
+  }
+};
 
 const Onboarding = () => {
   const onboardingForm = useForm<IUserOnboarding>({
@@ -57,12 +72,13 @@ const Onboarding = () => {
           className="m-auto my-16"
         />
         <div className="m-auto rounded-xl bg-black-800 px-5 py-8 sm:px-8">
-          <div className="mb-12">
+          <div className="mb-6">
             <Stepper currentStep={step} />
           </div>
-          <article className="">
+          <h2 className="h2-bold mb-6">{generateTitleBasedOnStep(step)}</h2>
+          <article>
             <Form {...onboardingForm}>
-              <BasicInformation handleChangeStep={handleChangeStep} />
+              <BasicInformationStep handleChangeStep={handleChangeStep} />
             </Form>
           </article>
         </div>

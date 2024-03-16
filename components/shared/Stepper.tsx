@@ -50,7 +50,7 @@ const Stepper: React.FC<IStepperProps> = ({ currentStep }) => {
   const completedLineWidth = Math.round(((currentStep - 1) / 3) * 100);
 
   return (
-    <div className="relative z-30 flex  justify-between   border-blue-600">
+    <div className="relative z-30 flex  justify-between">
       <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-black-600">
         <div
           className="h-1 bg-primary-500"

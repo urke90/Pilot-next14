@@ -9,11 +9,13 @@ import { Label } from '../ui/label';
 
 // ----------------------------------------------------------------
 
-interface IProps {
+interface IBasicInformationStepProps {
   handleChangeStep: () => void;
 }
 
-const BasicInformation: React.FC<IProps> = ({ handleChangeStep }) => {
+const BasicInformationStep: React.FC<IBasicInformationStepProps> = ({
+  handleChangeStep,
+}) => {
   const [uploadedImage, setUploadedImage] = useState('');
 
   useEffect(() => {
@@ -48,7 +50,6 @@ const BasicInformation: React.FC<IProps> = ({ handleChangeStep }) => {
 
   return (
     <section>
-      <h2 className="h2-bold mb-3">Basic Information</h2>
       <div className="mb-6 flex flex-row items-center">
         <Image
           src={
@@ -94,4 +95,4 @@ const BasicInformation: React.FC<IProps> = ({ handleChangeStep }) => {
   );
 };
 
-export default BasicInformation;
+export default BasicInformationStep;
