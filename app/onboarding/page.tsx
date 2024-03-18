@@ -1,17 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import { Form } from '@/components/ui/form';
 
 import Stepper from '@/components/shared/Stepper';
 import BasicInformationStep from '@/components/onboarding/BasicInformationStep';
 import LearningGoalsStep from '@/components/onboarding/LearningGoalsStep';
+import KnowledgeLevelStep from '@/components/onboarding/KnowledgeLevelStep';
 import type { IUser } from '@/models/User';
 
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
 
 // ----------------------------------------------------------------
 
@@ -41,7 +43,14 @@ const onboardingSchema = z.object({
   fullName: z.string().min(3, 'Full Name must be at least 3 characters long!'),
   portfolioUrl: z.string().url().trim().optional(),
   avatarImg: z.string().optional(),
-  learningGoals: z.array(learningGoalsSchema),
+  learningGoals: z
+    .array(learningGoalsSchema)
+    .nonempty('Plase add at lease one goal!'),
+  knowledgeLevel: z
+    .string()
+    .array()
+    .nonempty('Please add your expertize level!'),
+  techStack: z.string().optional(),
 });
 
 type IUserOnboarding = z.infer<typeof onboardingSchema>;
@@ -68,13 +77,19 @@ const Onboarding = () => {
       fullName: '',
       portfolioUrl: '',
       avatarImg: '',
-      learningGoals: [{ isChecked: true, goal: 'testing 1' }],
+      learningGoals: [],
+      knowledgeLevel: [],
+      techStack: '',
     },
   });
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const handleChangeStep = (newStep: number) => {
     setStep(newStep);
+  };
+
+  const onSubmit: SubmitHandler<IUserOnboarding> = (data) => {
+    console.log('dataaaaa', data);
   };
 
   return (
@@ -94,8 +109,11 @@ const Onboarding = () => {
           <h2 className="h2-bold mb-6">{generateTitleBasedOnStep(step)}</h2>
           <article>
             <Form {...onboardingForm}>
-              {/* <BasicInformationStep handleChangeStep={handleChangeStep} /> */}
-              <LearningGoalsStep handleChangeStep={handleChangeStep} />
+              <form onSubmit={onboardingForm.handleSubmit(onSubmit)}>
+                {/* <BasicInformationStep handleChangeStep={handleChangeStep} />
+              <LearningGoalsStep handleChangeStep={handleChangeStep} /> */}
+                <KnowledgeLevelStep handleChangeStep={handleChangeStep} />
+              </form>
             </Form>
           </article>
         </div>

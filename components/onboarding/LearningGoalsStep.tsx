@@ -25,7 +25,7 @@ const LearningGoalsStep: React.FC<ILearningGoalsStepProps> = ({
       <p className="p3-medium">Learning goals</p>
       <div className="mb-6">
         <ul>
-          {fields.map((field, index) => (
+          {fields?.map((field, index) => (
             <li
               key={field.id}
               className="flex-between my-2 rounded bg-black-700 px-3 py-1"
@@ -52,13 +52,15 @@ const LearningGoalsStep: React.FC<ILearningGoalsStepProps> = ({
           type="button"
           onClick={() => append({ isChecked: false, goal: '' })}
           variant="secondary"
-          className={`${fields.length === 0 ? 'mt-3' : ''}`}
+          className={`${fields.length === 0 ? 'mt-2' : ''}`}
         >
           <Plus className="size-[16px] rounded bg-primary-500 text-black-600" />
           Add goal checkbox
         </Button>
       </div>
-      <Button onClick={() => handleChangeStep(3)}>Next</Button>
+      <Button type="button" onClick={() => handleChangeStep(3)}>
+        Next
+      </Button>
     </div>
   );
 };
