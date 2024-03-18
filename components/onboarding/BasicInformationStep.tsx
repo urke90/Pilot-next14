@@ -10,7 +10,7 @@ import { Label } from '../ui/label';
 // ----------------------------------------------------------------
 
 interface IBasicInformationStepProps {
-  handleChangeStep: () => void;
+  handleChangeStep: (newStep: number) => void;
 }
 
 const BasicInformationStep: React.FC<IBasicInformationStepProps> = ({
@@ -87,7 +87,7 @@ const BasicInformationStep: React.FC<IBasicInformationStepProps> = ({
             placeholder="Edit portfolio link"
           />
         </div>
-        <Button type="button" onClick={handleChangeStep}>
+        <Button type="button" onClick={() => handleChangeStep(2)}>
           Next
         </Button>
       </div>

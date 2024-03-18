@@ -12,7 +12,7 @@ import { Input, InputProps } from '../ui/input';
 
 interface IRHFInputProps extends InputProps {
   name: string;
-  label: string;
+  label?: string;
   description?: string;
 }
 
