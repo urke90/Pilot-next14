@@ -9,11 +9,11 @@ import { Label } from '../ui/label';
 
 // ----------------------------------------------------------------
 
-interface IBasicInformationStepProps {
+interface IBasicInformationsProps {
   handleChangeStep: (newStep: number) => void;
 }
 
-const BasicInformationStep: React.FC<IBasicInformationStepProps> = ({
+const BasicInformations: React.FC<IBasicInformationsProps> = ({
   handleChangeStep,
 }) => {
   const [uploadedImage, setUploadedImage] = useState('');
@@ -95,4 +95,4 @@ const BasicInformationStep: React.FC<IBasicInformationStepProps> = ({
   );
 };
 
-export default BasicInformationStep;
+export default BasicInformations;

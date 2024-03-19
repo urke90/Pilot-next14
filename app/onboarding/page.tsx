@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useForm, useFieldArray, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import { Form } from '@/components/ui/form';
 
 import Stepper from '@/components/shared/Stepper';
-import BasicInformationStep from '@/components/onboarding/BasicInformationStep';
-import LearningGoalsStep from '@/components/onboarding/LearningGoalsStep';
-import KnowledgeLevelStep from '@/components/onboarding/KnowledgeLevelStep';
+import BasicInformation from '@/components/onboarding/BasicInformations';
+import LearningGoals from '@/components/onboarding/LearningGoals';
+import KnowledgeLevel from '@/components/onboarding/KnowledgeLevel';
+import ScheduleAndAvailability from '@/components/onboarding/ScheduleAndAvailability';
 import type { IUser } from '@/models/User';
 
 import z from 'zod';
@@ -18,21 +19,6 @@ import { Button } from '@/components/ui/button';
 // ----------------------------------------------------------------
 
 // ubaciti step da se user redirektuje osim ako nije zavrsio ceo onboarding;
-/**
- * 1. Pitati za Typography ako je  u FIGMMI Display/Display 2 Bold  da li to odmah znaci i da je h2 u pitanju ----> da
- * 2. Da li prosledim func handleChangeStep ili samo setter state func? Da li i kako se onda nazivaju props koje prosledjujem (onStepChange, handleStepChange....) ????
- * 3. Da li interface za componentu nazivmo samo IProps ili IImeComponentProps (npr) ?
- * 4. Za SEO I pravilini HTML ----> Ako vec imam <seciont> tag kao ovde wrapper, da li onda mora prvo <article> da mu bude childe, pa onda opet mogu nov <section> da radim
- * 5. objasnjavnje rada sa upload-om, konkretno sta je blob, buffer etc.
- * 6. Da li da downloadujem ikonice ili da koristim react-lucide ? Kao sto je za onboarding add goal
- * 7. Prodiskutovati o RHF inputima i dodavnje goals i knowledgde. Da li koristiti RHF inpute, da li u childu gde mi je lista goals napraviti novi useForm gde vec imam useFieldArray, i u tom useFormu da cuvam state za dodavanje novog goala ili da koristim regular shadcn Input i Checkbox?
- */
-
-// 1. kada mi treba flexibilnost onda renderujem SVG preko JSX-a kao sto je react-lucide a ako mi treba optimizacija onda Image iz Next-a
-// 2. gledam da bude lakse da se passuje prop iz parent u child
-// 3. semantic HTML istraziti jos
-// 4. images/files (bilo) koj externi servise Cloundinary a u bazi samo referencu
-// 5. da radim trenutno sa cloudinary
 
 const learningGoalsSchema = z.object({
   isChecked: z.boolean(),
@@ -51,6 +37,10 @@ const onboardingSchema = z.object({
     .array()
     .nonempty('Please add your expertize level!'),
   techStack: z.string().optional(),
+  startDate: z
+    .date({ required_error: 'Plase enter start date!' })
+    .min(new Date()),
+  endDate: z.date({ required_error: 'Plase enter end date!' }).min(new Date()),
 });
 
 type IUserOnboarding = z.infer<typeof onboardingSchema>;
@@ -80,6 +70,8 @@ const Onboarding = () => {
       learningGoals: [],
       knowledgeLevel: [],
       techStack: '',
+      startDate: new Date(),
+      endDate: new Date(),
     },
   });
   const [step, setStep] = useState(1);
@@ -91,6 +83,13 @@ const Onboarding = () => {
   const onSubmit: SubmitHandler<IUserOnboarding> = (data) => {
     console.log('dataaaaa', data);
   };
+  console.log('watch', onboardingForm.watch());
+  console.log(
+    'startDate typeof ',
+    onboardingForm.watch().startDate instanceof Date
+  );
+
+  useEffect(() => {}, [onboardingForm]);
 
   return (
     <section className="h-screen px-5">
@@ -110,9 +109,16 @@ const Onboarding = () => {
           <article>
             <Form {...onboardingForm}>
               <form onSubmit={onboardingForm.handleSubmit(onSubmit)}>
-                {/* <BasicInformationStep handleChangeStep={handleChangeStep} />
-              <LearningGoalsStep handleChangeStep={handleChangeStep} /> */}
-                <KnowledgeLevelStep handleChangeStep={handleChangeStep} />
+                {step === 1 && (
+                  <BasicInformation handleChangeStep={handleChangeStep} />
+                )}
+                {step === 2 && (
+                  <LearningGoals handleChangeStep={handleChangeStep} />
+                )}
+                {step === 3 && (
+                  <KnowledgeLevel handleChangeStep={handleChangeStep} />
+                )}
+                {step === 4 && <ScheduleAndAvailability />}
               </form>
             </Form>
           </article>

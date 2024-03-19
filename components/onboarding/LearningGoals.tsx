@@ -11,13 +11,11 @@ import RHFInput from '../RHFInputs/RHFInput';
 
 // ----------------------------------------------------------------
 
-interface ILearningGoalsStepProps {
+interface ILearningGoalsProps {
   handleChangeStep: (newStep: number) => void;
 }
 
-const LearningGoalsStep: React.FC<ILearningGoalsStepProps> = ({
-  handleChangeStep,
-}) => {
+const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
   const { fields, append, remove } = useFieldArray({ name: 'learningGoals' });
 
   return (
@@ -58,11 +56,15 @@ const LearningGoalsStep: React.FC<ILearningGoalsStepProps> = ({
           Add goal checkbox
         </Button>
       </div>
-      <Button type="button" onClick={() => handleChangeStep(3)}>
+      <Button
+        disabled={fields.length === 0}
+        type="button"
+        onClick={() => handleChangeStep(3)}
+      >
         Next
       </Button>
     </div>
   );
 };
 
-export default LearningGoalsStep;
+export default LearningGoals;

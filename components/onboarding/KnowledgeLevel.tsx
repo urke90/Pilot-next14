@@ -11,7 +11,7 @@ interface IKnowledgeLevelProps {
   handleChangeStep: (newStep: number) => void;
 }
 
-const KnowledgeLevelStep: React.FC<IKnowledgeLevelProps> = ({
+const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
   handleChangeStep,
 }) => {
   const { fields, append, remove } = useFieldArray({ name: 'knowledgeLevel' });
@@ -79,4 +79,4 @@ const KnowledgeLevelStep: React.FC<IKnowledgeLevelProps> = ({
   );
 };
 
-export default KnowledgeLevelStep;
+export default KnowledgeLevel;
