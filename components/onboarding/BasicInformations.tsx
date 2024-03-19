@@ -1,10 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import Image from 'next/image';
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+  CloudinaryUploadWidgetInfo,
+} from 'next-cloudinary';
 import { Button } from '../ui/button';
 import RHFInput from '../RHFInputs/RHFInput';
-import { Input } from '../ui/input';
+
 import { Label } from '../ui/label';
 
 // ----------------------------------------------------------------
@@ -16,36 +22,28 @@ interface IBasicInformationsProps {
 const BasicInformations: React.FC<IBasicInformationsProps> = ({
   handleChangeStep,
 }) => {
+  const { trigger } = useFormContext();
   const [uploadedImage, setUploadedImage] = useState('');
 
-  useEffect(() => {
-    console.log('uploaded image', uploadedImage);
-  }, [uploadedImage]);
+  const onSuccessUpload = (
+    result: CloudinaryUploadWidgetResults,
+    options: any
+  ) => {
+    console.log('result', result);
+    console.log('options', options);
 
-  const handleUploadImg = async (files: FileList | null) => {
-    if (!files) return;
+    if (!result || !result?.info) throw new Error('Image not uploaded!');
+    setUploadedImage((result.info as CloudinaryUploadWidgetInfo).url);
+  };
 
-    const file = files[0];
-    console.log('file', file);
-    const imageTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'image/webp',
-      'image/svg+xml',
-    ];
-    if (!imageTypes.includes(file.type)) throw new Error('Invalid image!');
+  const validateAndChangeStep = async () => {
+    const validInputs = await trigger([
+      'fullName',
+      'portfolioUrl',
+      'avatarImg',
+    ]);
 
-    const image = URL.createObjectURL(file);
-    console.log('image', image);
-
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    // TODO continue with image upload
-
-    console.log('buffer', buffer);
-
-    setUploadedImage(image);
+    if (validInputs) handleChangeStep(2);
   };
 
   return (
@@ -61,19 +59,19 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
           className="mr-3.5 rounded-[5px]"
         />
         <Label className="flex-center w-[200px] cursor-pointer gap-2 rounded-md bg-black-700 p-2">
-          <Image
-            src="/assets/images/icn-upload-cloud.png"
-            alt="Upload Image Cloud"
-            width={16}
-            height={16}
-          />
-          <span className="p3-medium">Update Profile Picture</span>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => handleUploadImg(e.target.files)}
-            className="hidden"
-          />
+          <CldUploadButton
+            className="flex items-center gap-2"
+            uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME ?? ''}
+            onSuccess={onSuccessUpload}
+          >
+            <Image
+              src="/assets/images/icn-upload-cloud.png"
+              alt="Upload Image Cloud"
+              width={16}
+              height={16}
+            />
+            <span className="p3-medium">Update Profile Picture</span>
+          </CldUploadButton>
         </Label>
       </div>
       <div>
@@ -87,7 +85,7 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
             placeholder="Edit portfolio link"
           />
         </div>
-        <Button type="button" onClick={() => handleChangeStep(2)}>
+        <Button type="button" onClick={validateAndChangeStep}>
           Next
         </Button>
       </div>

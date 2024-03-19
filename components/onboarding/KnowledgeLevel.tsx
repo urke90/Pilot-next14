@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Plus, X } from 'lucide-react';
 import RHFCheckbox from '../RHFInputs/RHFCheckbox';
 import RHFInput from '../RHFInputs/RHFInput';
@@ -14,7 +14,17 @@ interface IKnowledgeLevelProps {
 const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
   handleChangeStep,
 }) => {
+  const {
+    trigger,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({ name: 'knowledgeLevel' });
+
+  const validateAndChangeStep = async () => {
+    const validInputs = await trigger('knowledgeLevel');
+
+    if (validInputs) handleChangeStep(4);
+  };
 
   return (
     <div>
@@ -48,8 +58,12 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
               </li>
             ))
           ) : (
-            <li className="my-2 rounded  px-3 py-2 text-center">
-              Start adding your expertize...
+            <li
+              className={`my-2 rounded  px-3 py-2 text-center ${errors.knowledgeLevel ? 'text-red-500' : ''}`}
+            >
+              {errors.knowledgeLevel
+                ? errors.knowledgeLevel.message?.toString()
+                : 'Start adding your expertise...'}
             </li>
           )}
         </ul>
@@ -68,11 +82,7 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
           placeholder="Please add your Tech Stack..."
         />
       </div>
-      <Button
-        type="button"
-        disabled={fields.length === 0}
-        onClick={() => handleChangeStep(4)}
-      >
+      <Button type="button" onClick={validateAndChangeStep}>
         Next
       </Button>
     </div>

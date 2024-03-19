@@ -1,24 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { Form } from '@/components/ui/form';
-
+import { useSession } from 'next-auth/react';
 import Stepper from '@/components/shared/Stepper';
 import BasicInformation from '@/components/onboarding/BasicInformations';
 import LearningGoals from '@/components/onboarding/LearningGoals';
 import KnowledgeLevel from '@/components/onboarding/KnowledgeLevel';
 import ScheduleAndAvailability from '@/components/onboarding/ScheduleAndAvailability';
-import type { IUser } from '@/models/User';
-
-import z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
 
 // ----------------------------------------------------------------
 
 // ubaciti step da se user redirektuje osim ako nije zavrsio ceo onboarding;
+/**
+ * 1. kako uraditi flow za prelazak na sledeci step sto se tice validacije? Da li dodati za stepper on Click da moze user da se vraca korak napred/nazad ili disable button next????
+ * 2. stilizovanj Date-pickera
+ * 3. prikazivanje errora? S obziorm da je stepper da li izabaciti neki toast?
+ */
+/**
+ * 1. start adding your knowledge message da bude ako je [].length === 0
+ * ******* proveravam svaku Step komponentu za sebe ako tu ima errora user ne moze da ide NEXT dok ne popravi sve errore
+ *
+ *
+ * REQUIRED
+ * - fullName
+ *
+ */
 
 const learningGoalsSchema = z.object({
   isChecked: z.boolean(),
@@ -26,21 +37,24 @@ const learningGoalsSchema = z.object({
 });
 
 const onboardingSchema = z.object({
-  fullName: z.string().min(3, 'Full Name must be at least 3 characters long!'),
-  portfolioUrl: z.string().url().trim().optional(),
-  avatarImg: z.string().optional(),
+  fullName: z.string().min(3, 'Please enter your Name!'),
+  portfolioUrl: z.union([z.string().url().nullish(), z.literal('')]),
+  avatarImg: z.string().trim().optional(),
   learningGoals: z
     .array(learningGoalsSchema)
-    .nonempty('Plase add at lease one goal!'),
+    .nonempty('Please add at lease one goal!'),
   knowledgeLevel: z
-    .string()
-    .array()
-    .nonempty('Please add your expertize level!'),
-  techStack: z.string().optional(),
+    .array(z.string().min(3, 'Experise must contain at least 3 characters!'))
+    .nonempty('Please add your expertise level!'),
+  techStack: z.string().trim(),
   startDate: z
     .date({ required_error: 'Plase enter start date!' })
-    .min(new Date()),
-  endDate: z.date({ required_error: 'Plase enter end date!' }).min(new Date()),
+    .min(new Date())
+    .optional(),
+  endDate: z
+    .date({ required_error: 'Please enter end date!' })
+    .min(new Date())
+    .optional(),
 });
 
 type IUserOnboarding = z.infer<typeof onboardingSchema>;
@@ -61,17 +75,18 @@ const generateTitleBasedOnStep = (step: number) => {
 };
 
 const Onboarding = () => {
+  const { data: session } = useSession();
   const onboardingForm = useForm<IUserOnboarding>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      fullName: '',
+      fullName: session?.user?.name || '',
       portfolioUrl: '',
-      avatarImg: '',
+      avatarImg: session?.user?.image || '',
       learningGoals: [],
       knowledgeLevel: [],
       techStack: '',
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: undefined,
+      endDate: undefined,
     },
   });
   const [step, setStep] = useState(1);
@@ -81,15 +96,8 @@ const Onboarding = () => {
   };
 
   const onSubmit: SubmitHandler<IUserOnboarding> = (data) => {
-    console.log('dataaaaa', data);
+    console.log('dataaaaa COMPLETED', data);
   };
-  console.log('watch', onboardingForm.watch());
-  console.log(
-    'startDate typeof ',
-    onboardingForm.watch().startDate instanceof Date
-  );
-
-  useEffect(() => {}, [onboardingForm]);
 
   return (
     <section className="h-screen px-5">
