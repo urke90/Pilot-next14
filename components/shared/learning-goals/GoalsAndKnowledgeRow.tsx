@@ -10,6 +10,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 // import RHFInput from '@/components/RHFInputs/RHFInput';
 
 // ----------------------------------------------------------------
+// TODO maybe this can be reused, left just in case i need it later
 
 interface ILearningGoalProps {
   name: string;

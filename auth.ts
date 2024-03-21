@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth';
+import NextAuth, { AuthError } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { compareSync } from 'bcryptjs';
@@ -6,8 +6,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { connectToMongoDB } from './lib/database/mongodb';
 import User from './models/User';
 
-// import { MongoDBAdapter } from '@auth/mongodb-adapter';  implement later
-// import clientPromise from './lib/database/mongoClientPromise';
+import { MongoDBAdapter } from '@auth/mongodb-adapter';
+import clientPromise from './lib/database/mongoClientPromise';
+
+// ----------------------------------------------------------------
 
 export const {
   handlers: { GET, POST },
@@ -15,6 +17,9 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  session: {
+    strategy: 'jwt',
+  },
   // adapter: MongoDBAdapter(clientPromise),
   providers: [
     GitHubProvider({
@@ -94,6 +99,26 @@ export const {
       const isAuthenticated = !!auth?.user;
 
       return isAuthenticated;
+    },
+    async jwt({ token }) {
+      try {
+        await connectToMongoDB();
+        const existingtUser = await User.findOne({ email: token.email });
+        // console.log('existingtUser JWT', existingtUser);
+
+        if (existingtUser) token.id = existingtUser._id.toString();
+      } catch (error) {
+        console.log('Error in JWT callback', error);
+      }
+
+      return token;
+    },
+    session({ session, token }) {
+      if (token.id) {
+        session.user.id = token.id;
+      }
+
+      return session;
     },
   },
   pages: {

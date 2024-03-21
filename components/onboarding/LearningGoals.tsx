@@ -2,20 +2,19 @@
 
 import { Plus, X } from 'lucide-react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-// import GoalsAndKnowledgeRow, {
-//   GoalsAndKnowledgeInputRow,
-// } from '../shared/learning-goals/GoalsAndKnowledgeRow';
 import { Button } from '../ui/button';
 import RHFCheckbox from '../RHFInputs/RHFCheckbox';
 import RHFInput from '../RHFInputs/RHFInput';
+import { EOnboardingStep } from '@/types/onboarding-step';
 
 // ----------------------------------------------------------------
 
 interface ILearningGoalsProps {
-  handleChangeStep: (newStep: number) => void;
+  handleChangeStep: (newStep: EOnboardingStep) => void;
 }
 
 const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
+  const { KNOWLEDGE_LEVEL } = EOnboardingStep;
   const {
     trigger,
     formState: { errors },
@@ -25,7 +24,7 @@ const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
   const validateAndChangeStep = async () => {
     const validInputs = await trigger('learningGoals');
 
-    if (validInputs) handleChangeStep(3);
+    if (validInputs) await handleChangeStep(KNOWLEDGE_LEVEL);
   };
 
   return (
@@ -37,9 +36,9 @@ const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
             fields?.map((field, index) => (
               <li
                 key={field.id}
-                className="flex-between my-2 rounded bg-black-700 px-3 py-1"
+                className="flex-between my-2 rounded  bg-black-700 px-3 py-1"
               >
-                <div className="flex items-center">
+                <div className="flex flex-1 items-center">
                   <RHFCheckbox
                     name={`learningGoals.${index}.isChecked`}
                     className="mr-0 pr-0"

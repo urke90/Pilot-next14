@@ -1,4 +1,5 @@
 import { Schema, model, models, Document, Model } from 'mongoose';
+import { EOnboardingStep } from '@/types/onboarding-step';
 
 export interface ILearningGoals extends Document {
   isChecked: boolean;
@@ -17,6 +18,7 @@ export interface IUser extends Document {
   projectAvailability: boolean;
   startDate: Date;
   endDate: Date;
+  onboardingStep: EOnboardingStep;
 }
 
 const LearningGoalsSchema = new Schema<ILearningGoals>({
@@ -45,6 +47,7 @@ const UserSchema: Schema = new Schema<IUser>({
   projectAvailability: Boolean,
   startDate: Date,
   endDate: Date,
+  onboardingStep: Number,
 });
 
 const User: Model<IUser> = models?.User || model<IUser>('User', UserSchema);

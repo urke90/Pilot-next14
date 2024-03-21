@@ -1,28 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import Image from 'next/image';
+import { EOnboardingStep } from '@/types/onboarding-step';
 import {
   CldUploadButton,
-  CloudinaryUploadWidgetResults,
   CloudinaryUploadWidgetInfo,
+  CloudinaryUploadWidgetResults,
 } from 'next-cloudinary';
-import { Button } from '../ui/button';
+import Image from 'next/image';
+import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import RHFInput from '../RHFInputs/RHFInput';
-
+import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 
 // ----------------------------------------------------------------
 
 interface IBasicInformationsProps {
-  handleChangeStep: (newStep: number) => void;
+  handleChangeStep: (newStep: EOnboardingStep) => void;
 }
 
 const BasicInformations: React.FC<IBasicInformationsProps> = ({
   handleChangeStep,
 }) => {
-  const { trigger } = useFormContext();
+  const { LEARNING_GOALS } = EOnboardingStep;
+  const { trigger, setValue } = useFormContext();
   const [uploadedImage, setUploadedImage] = useState('');
 
   const onSuccessUpload = (
@@ -33,7 +34,11 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
     console.log('options', options);
 
     if (!result || !result?.info) throw new Error('Image not uploaded!');
-    setUploadedImage((result.info as CloudinaryUploadWidgetInfo).url);
+    setUploadedImage((result.info as CloudinaryUploadWidgetInfo).secure_url);
+    setValue(
+      'avatarImg',
+      (result.info as CloudinaryUploadWidgetInfo).secure_url
+    );
   };
 
   const validateAndChangeStep = async () => {
@@ -43,7 +48,7 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
       'avatarImg',
     ]);
 
-    if (validInputs) handleChangeStep(2);
+    if (validInputs) await handleChangeStep(LEARNING_GOALS);
   };
 
   return (
@@ -58,6 +63,7 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
           height={90}
           className="mr-3.5 rounded-[5px]"
         />
+        {/* <CldImage src={uploadedImage} alt="ja" width="90" height="90" /> */}
         <Label className="flex-center w-[200px] cursor-pointer gap-2 rounded-md bg-black-700 p-2">
           <CldUploadButton
             className="flex items-center gap-2"

@@ -1,14 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Plus, X } from 'lucide-react';
-import RHFCheckbox from '../RHFInputs/RHFCheckbox';
 import RHFInput from '../RHFInputs/RHFInput';
 import { Button } from '../ui/button';
+import { EOnboardingStep } from '@/types/onboarding-step';
 
 // ----------------------------------------------------------------
 
 interface IKnowledgeLevelProps {
-  handleChangeStep: (newStep: number) => void;
+  handleChangeStep: (newStep: EOnboardingStep) => void;
 }
 
 const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
@@ -18,12 +20,13 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
     trigger,
     formState: { errors },
   } = useFormContext();
+  const { SCHEDULE_AND_AVAILABILITY } = EOnboardingStep;
   const { fields, append, remove } = useFieldArray({ name: 'knowledgeLevel' });
 
   const validateAndChangeStep = async () => {
     const validInputs = await trigger('knowledgeLevel');
 
-    if (validInputs) handleChangeStep(4);
+    if (validInputs) handleChangeStep(SCHEDULE_AND_AVAILABILITY);
   };
 
   return (
@@ -37,7 +40,7 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
                 key={field.id}
                 className="flex-between my-2 rounded bg-black-700 px-3 py-1"
               >
-                <div className="flex items-center">
+                <div className="flex flex-1 items-center ">
                   <Image
                     src="assets/images/icn-check-square.svg"
                     alt="Checked"
@@ -47,7 +50,7 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
                   />
                   <RHFInput
                     name={`knowledgeLevel.${index}`}
-                    placeholder="Enter a learning goal"
+                    placeholder="Enter your expertise level"
                     className="pl-0"
                   />
                 </div>

@@ -30,7 +30,7 @@ const RHFInput: React.FC<IRHFInputProps> = ({
       name={name}
       control={control}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="w-full">
           {label && <FormLabel>{label}</FormLabel>}
           <Input type={type} {...field} {...rest} />
           {description && <FormDescription>{description}</FormDescription>}

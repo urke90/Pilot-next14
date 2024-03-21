@@ -6,11 +6,7 @@ import { Button } from '../ui/button';
 
 // ----------------------------------------------------------------
 
-interface IScheduleAndAvailabilityProps {}
-
-const ScheduleAndAvailability: React.FC<IScheduleAndAvailabilityProps> = (
-  props
-) => {
+const ScheduleAndAvailability: React.FC = () => {
   return (
     <section>
       <RHFCheckbox
