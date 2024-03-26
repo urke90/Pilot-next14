@@ -1,6 +1,7 @@
-import { Schema, model, models, Document, Model } from 'mongoose';
+import { Schema, model, Document, Model, models } from 'mongoose';
+import { EOnboardingStep } from '@/types/onboarding-step';
 
-interface ILearningGoals extends Document {
+export interface ILearningGoals extends Document {
   isChecked: boolean;
   goal: string;
 }
@@ -9,14 +10,15 @@ export interface IUser extends Document {
   fullName: string;
   email: string;
   password: string;
-  avatarUrl?: string;
+  avatarImg?: string;
   portfolioUrl: string;
   learningGoals?: ILearningGoals[];
   knowledgeLevel?: string[];
   techStack: string;
   projectAvailability: boolean;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
+  onboardingStep: EOnboardingStep;
 }
 
 const LearningGoalsSchema = new Schema<ILearningGoals>({
@@ -37,7 +39,7 @@ const UserSchema: Schema = new Schema<IUser>({
     unique: true,
   },
   password: String,
-  avatarUrl: String,
+  avatarImg: String,
   portfolioUrl: String,
   learningGoals: [LearningGoalsSchema],
   knowledgeLevel: [String],
@@ -45,6 +47,7 @@ const UserSchema: Schema = new Schema<IUser>({
   projectAvailability: Boolean,
   startDate: Date,
   endDate: Date,
+  onboardingStep: Number,
 });
 
 const User: Model<IUser> = models?.User || model<IUser>('User', UserSchema);

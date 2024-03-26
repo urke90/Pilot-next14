@@ -59,6 +59,7 @@ const config = {
           'box-shadow: 0px 1px 3px 0px #1212121A, 0px 0px 0px 1px #12121212, 0px 1px 1px 0px #1212121A',
         'tw-input-shadow':
           'box-shadow: 0px 0px 0px 1px #1212121A, 0px 1px 1px 0px #1212121A',
+        'tw-stepper-btn': '0px 0px 0px 4px #2E3757',
       },
       // fontFamily: {
       //   inter: ['Inter',] // Dodao sam Inter font kroz app layout tsx

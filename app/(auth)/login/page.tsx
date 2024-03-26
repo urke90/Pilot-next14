@@ -1,15 +1,15 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
 // components shadcn
-import { Button } from '@/components/ui/button';
 import RHFInput from '@/components/RHFInputs/RHFInput';
+import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { signIn, signInGithub, signInGoogle } from '@/lib/actions/auth';
 import { loginFormSchema, type ILoginFormData } from '@/lib/zod/user-schema';
-import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
 import { toast } from 'react-toastify';
 
 // ----------------------------------------------------------------
@@ -72,7 +72,7 @@ const Login = () => {
                 placeholder="Enter your email address"
               />
             </div>
-            <div className="mb-6 grid w-full max-w-sm items-center gap-1.5">
+            <div className="mb-6   max-w-sm items-center gap-1.5">
               <RHFInput
                 name="password"
                 type="password"
@@ -88,7 +88,7 @@ const Login = () => {
           </form>
         </Form>
         <Link
-          href="/sign-up"
+          href="/register"
           className="mb-6 text-center text-sm text-white-300 underline"
         >
           I don&apos;t have an account

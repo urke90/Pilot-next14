@@ -116,13 +116,24 @@
 }
 
 @layer utilities {
+  /* FLEX */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+  /* FLEX */
+
+  /* TYPOGRAPHY */
+
   /* HEADINGS */
   .h1-bold {
     @apply font-bold text-[32px] leading-[40px];
   }
 
   .h2-bold {
-    @apply font-bold text-2xl;
+    @apply font-bold text-2xl text-white-100;
   }
 
   .h1-medium {
@@ -163,19 +174,19 @@
 
   /* PARAGRAPHS REGULAR */
   .p1-regular {
-    @apply font-medium text-lg;
+    @apply font-normal text-lg;
   }
 
   .p2-regular {
-    @apply font-medium text-base;
+    @apply font-normal text-base;
   }
 
   .p3-regular {
-    @apply font-medium text-sm;
+    @apply font-normal text-sm text-white-300;
   }
 
   .p4-regular {
-    @apply font-medium text-xs;
+    @apply font-normal text-xs;
   }
   /* PARAGRAPHS REGULAR */
 
