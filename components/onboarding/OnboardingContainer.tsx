@@ -14,12 +14,14 @@ import {
   onboardingSchema,
   type IUserOnboarding,
 } from '@/lib/zod/onboarding-schema';
+import { IUser } from '@/models/User';
 import { EOnboardingStep } from '@/types/onboarding-step';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { User } from 'next-auth';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 // ----------------------------------------------------------------
 
@@ -54,42 +56,65 @@ const generateTitleBasedOnStep = (step: EOnboardingStep) => {
 };
 
 interface IOnboardingContainer {
-  user: User;
+  user: IUser;
 }
 
 const OnboardingContainer: React.FC<IOnboardingContainer> = ({ user }) => {
-  const [step, setStep] = useState<EOnboardingStep>(BASIC_INFORMATION);
-  const handleChangeStep = async (newStep: EOnboardingStep) => {
-    if (!user.id) return;
-
-    await updateUserOnboardingStep(user?.id, newStep);
-    setStep(newStep);
-  };
+  const {
+    fullName,
+    portfolioUrl,
+    avatarImg,
+    learningGoals,
+    knowledgeLevel,
+    techStack,
+    startDate,
+    endDate,
+    projectAvailability,
+    onboardingStep,
+    _id,
+  } = user || {};
+  const router = useRouter();
+  const [step, setStep] = useState<EOnboardingStep>(
+    onboardingStep || BASIC_INFORMATION
+  );
 
   const onboardingForm = useForm<IUserOnboarding>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
-      fullName: user.name || '',
-      portfolioUrl: '',
-      avatarImg: user.image || '',
-      learningGoals: [],
-      knowledgeLevel: [],
-      techStack: '',
-      startDate: undefined,
-      endDate: undefined,
-      onboardingStep: step,
+      fullName: fullName || '',
+      portfolioUrl: portfolioUrl || '',
+      avatarImg: avatarImg || '',
+      learningGoals: learningGoals || [],
+      knowledgeLevel: knowledgeLevel || [],
+      techStack: techStack || '',
+      startDate: startDate || undefined,
+      endDate: endDate || undefined,
+      projectAvailability: projectAvailability || false,
+      onboardingStep: onboardingStep || step,
     },
   });
+
+  const handleChangeStep = async (
+    data: Partial<IUserOnboarding>,
+    newStep: EOnboardingStep
+  ) => {
+    if (!_id) return;
+
+    await updateUserOnboardingStep(user._id.toString(), data);
+    setStep(newStep);
+    console.log('handleChangeStep opalio');
+  };
 
   const onSubmit: SubmitHandler<IUserOnboarding> = async (data) => {
     data.onboardingStep = FINISHED_ONBOARDING;
 
-    console.log('data U SUBMIT', data);
-
     try {
-      if (!user.id) return;
-      const response = await updateUser(user.id, data);
-      console.log('response', response);
+      if (!_id) return;
+      const response = await updateUser(_id, data);
+      if (response?.ok && response?.status === 200) {
+        toast.success('Onboarding finished successfully!');
+        router.push('/');
+      }
     } catch (error) {
       console.log('Error in submit onboarding user info', error);
     }

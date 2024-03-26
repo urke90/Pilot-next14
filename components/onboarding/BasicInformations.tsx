@@ -12,18 +12,22 @@ import { useFormContext } from 'react-hook-form';
 import RHFInput from '../RHFInputs/RHFInput';
 import { Button } from '../ui/button';
 import { Label } from '../ui/label';
+import { IUserOnboarding } from '@/lib/zod/onboarding-schema';
 
 // ----------------------------------------------------------------
 
 interface IBasicInformationsProps {
-  handleChangeStep: (newStep: EOnboardingStep) => void;
+  handleChangeStep: (
+    data: Partial<IUserOnboarding>,
+    newStep: EOnboardingStep
+  ) => void;
 }
 
 const BasicInformations: React.FC<IBasicInformationsProps> = ({
   handleChangeStep,
 }) => {
   const { LEARNING_GOALS } = EOnboardingStep;
-  const { trigger, setValue } = useFormContext();
+  const { trigger, setValue, getValues } = useFormContext();
   const [uploadedImage, setUploadedImage] = useState('');
 
   const onSuccessUpload = (
@@ -48,21 +52,35 @@ const BasicInformations: React.FC<IBasicInformationsProps> = ({
       'avatarImg',
     ]);
 
-    if (validInputs) await handleChangeStep(LEARNING_GOALS);
+    if (!validInputs) return;
+
+    const [fullName, portfolioUrl, avatarImg] = getValues([
+      'fullName',
+      'portfolioUrl',
+      'avatarImg',
+    ]);
+
+    await handleChangeStep(
+      { fullName, portfolioUrl, avatarImg, onboardingStep: LEARNING_GOALS },
+      LEARNING_GOALS
+    );
   };
 
   return (
     <section>
       <div className="mb-6 flex flex-row items-center">
-        <Image
-          src={
-            uploadedImage || `${'/assets/images/image-upload-placeholder.svg'}`
-          }
-          alt="Upload Image"
-          width={90}
-          height={90}
-          className="mr-3.5 rounded-[5px]"
-        />
+        <div>
+          <Image
+            src={
+              uploadedImage ||
+              `${'/assets/images/image-upload-placeholder.svg'}`
+            }
+            alt="Upload Image"
+            width={90}
+            height={90}
+            className="mr-3.5 rounded-[5px]"
+          />
+        </div>
         {/* <CldImage src={uploadedImage} alt="ja" width="90" height="90" /> */}
         <Label className="flex-center w-[200px] cursor-pointer gap-2 rounded-md bg-black-700 p-2">
           <CldUploadButton

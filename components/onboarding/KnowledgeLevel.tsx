@@ -6,11 +6,15 @@ import { Plus, X } from 'lucide-react';
 import RHFInput from '../RHFInputs/RHFInput';
 import { Button } from '../ui/button';
 import { EOnboardingStep } from '@/types/onboarding-step';
+import type { IUserOnboarding } from '@/lib/zod/onboarding-schema';
 
 // ----------------------------------------------------------------
 
 interface IKnowledgeLevelProps {
-  handleChangeStep: (newStep: EOnboardingStep) => void;
+  handleChangeStep: (
+    data: Partial<IUserOnboarding>,
+    newStep: EOnboardingStep
+  ) => void;
 }
 
 const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
@@ -19,6 +23,7 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
   const {
     trigger,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const { SCHEDULE_AND_AVAILABILITY } = EOnboardingStep;
   const { fields, append, remove } = useFieldArray({ name: 'knowledgeLevel' });
@@ -26,7 +31,14 @@ const KnowledgeLevel: React.FC<IKnowledgeLevelProps> = ({
   const validateAndChangeStep = async () => {
     const validInputs = await trigger('knowledgeLevel');
 
-    if (validInputs) handleChangeStep(SCHEDULE_AND_AVAILABILITY);
+    if (!validInputs) return;
+
+    const knowledgeLevel = getValues('knowledgeLevel');
+
+    handleChangeStep(
+      { knowledgeLevel, onboardingStep: SCHEDULE_AND_AVAILABILITY },
+      SCHEDULE_AND_AVAILABILITY
+    );
   };
 
   return (

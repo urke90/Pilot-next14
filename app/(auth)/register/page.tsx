@@ -1,26 +1,26 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 // components
-import Image from 'next/image';
-import Link from 'next/link';
+import RHFInput from '@/components/RHFInputs/RHFInput';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import RHFInput from '@/components/RHFInputs/RHFInput';
 import { createNewUser } from '@/lib/actions/user-actions';
 import { signUpFormSchema, type ISignUpFormData } from '@/lib/zod/user-schema';
+import Image from 'next/image';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 // models
-import { signInGoogle, signInGithub, signIn } from '@/lib/actions/auth';
+import { signIn, signInGithub, signInGoogle } from '@/lib/actions/auth';
 
 // ----------------------------------------------------------------
 
-const SignUp = () => {
+const Register = () => {
   const router = useRouter();
 
-  const signUpForm = useForm<ISignUpFormData>({
+  const registerForm = useForm<ISignUpFormData>({
     mode: 'onChange',
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -49,7 +49,7 @@ const SignUp = () => {
     }
   };
 
-  const { isSubmitting, isValid } = signUpForm.formState;
+  const { isSubmitting, isValid } = registerForm.formState;
 
   const disabledSubmitBtn = isSubmitting || !isValid;
 
@@ -65,8 +65,8 @@ const SignUp = () => {
           />
         </div>
         <h2 className="h2-bold mb-5 text-white-100">Create an account</h2>
-        <Form {...signUpForm}>
-          <form onSubmit={signUpForm.handleSubmit(onSubmit)}>
+        <Form {...registerForm}>
+          <form onSubmit={registerForm.handleSubmit(onSubmit)}>
             <div className="mb-4 grid w-full max-w-sm items-center gap-1.5">
               <RHFInput
                 name="fullName"
@@ -136,4 +136,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Register;

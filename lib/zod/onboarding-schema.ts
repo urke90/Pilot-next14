@@ -27,6 +27,7 @@ export const onboardingSchema = z.object({
     .date({ required_error: 'Please enter end date!' })
     .min(new Date())
     .optional(),
+  projectAvailability: z.boolean().optional(),
   onboardingStep: z.number().min(1).max(5),
 });
 

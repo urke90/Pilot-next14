@@ -1,4 +1,4 @@
-import { Schema, model, models, Document, Model } from 'mongoose';
+import { Schema, model, Document, Model, models } from 'mongoose';
 import { EOnboardingStep } from '@/types/onboarding-step';
 
 export interface ILearningGoals extends Document {
@@ -16,8 +16,8 @@ export interface IUser extends Document {
   knowledgeLevel?: string[];
   techStack: string;
   projectAvailability: boolean;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   onboardingStep: EOnboardingStep;
 }
 

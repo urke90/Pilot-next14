@@ -3,23 +3,33 @@
 import User from '@/models/User';
 import { genSalt, hash } from 'bcryptjs';
 
-import { EOnboardingStep } from '@/types/onboarding-step';
 import { MongoError } from 'mongodb';
 import { connectToMongoDB } from '../database/mongodb';
-import { IUserOnboarding } from '../zod/onboarding-schema';
+import type { IUser } from '@/models/User';
+import type { IUserOnboarding } from '../zod/onboarding-schema';
 
 // ----------------------------------------------------------------
 
-export const findUserByEmail = async (email: string) => {
-  await connectToMongoDB();
-
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    throw new Error('User with provided email is not found!');
+export const getUserById = async (userId: string) => {
+  try {
+    await connectToMongoDB();
+    const user = await User.findById<IUser>(userId);
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.log('Error getting user from MongoDB', error);
   }
+};
 
-  return user;
+export const getUserByEmail = async (email: string) => {
+  try {
+    await connectToMongoDB();
+
+    const user = await User.findOne<IUser>({ email });
+
+    return JSON.parse(JSON.stringify(user));
+  } catch (error) {
+    console.log('Error getting user from MongoDB', error);
+  }
 };
 
 export const createNewUser = async ({
@@ -59,17 +69,16 @@ export const createNewUser = async ({
 
 export const updateUserOnboardingStep = async (
   id: string,
-  onboardingStep: EOnboardingStep
+  data: Partial<IUserOnboarding>
 ) => {
   try {
     await connectToMongoDB();
 
-    const user = await User.findOneAndUpdate(
+    const user = await User.findOneAndUpdate<IUser>(
       { _id: id },
-      { onboardingStep }
+      { $set: data }
     ).lean();
 
-    // console.log('user Updated', user);
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
     console.log('error update User Onboarding State', error);
@@ -88,9 +97,15 @@ export const updateUserOnboardingStep = async (
 
 export const updateUser = async (userId: string, data: IUserOnboarding) => {
   try {
-    await User.findByIdAndUpdate(userId, data, {
+    await connectToMongoDB();
+    const bla = await User.findByIdAndUpdate({ _id: userId }, data, {
       new: true,
     });
+
+    console.log(
+      'BLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      bla
+    );
 
     return { ok: true, status: 200 };
   } catch (error) {

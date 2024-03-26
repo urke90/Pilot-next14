@@ -4,8 +4,6 @@ import { inter } from './ui/fonts';
 import SessionProvider from '@/components/auth/SessionProvider';
 import { ToastContainer } from 'react-toastify';
 
-import { auth } from '@/auth';
-
 import './globals.css';
 
 // ----------------------------------------------------------------
@@ -20,14 +18,10 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const session = await auth();
-
-  // console.log('session', session);
-
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
+        <SessionProvider>
           <main className="h-screen">{children}</main>
           <ToastContainer closeOnClick newestOnTop />
         </SessionProvider>

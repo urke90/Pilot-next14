@@ -1,5 +1,5 @@
-import NextAuth, { DefaultSession } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+import { DefaultSession } from 'next-auth';
+import 'next-auth/jwt';
 
 declare module 'next-auth' {
   /**
@@ -7,8 +7,10 @@ declare module 'next-auth' {
    */
   interface Session {
     user: {
-      /** The user's postal address. */
+      /** The user's unique identifier. */
       id: string;
+      /** Current step of user onboarding process. If value is 5 then onboarding is finished */
+      onboardingStep: number;
     } & DefaultSession['user'];
   }
 }
@@ -18,5 +20,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     /** OpenID ID Token */
     id?: string;
+    /** OCurrent step of user onboarding process. If value is 5 then onboarding is finished */
+    onboardingStep: number;
   }
 }

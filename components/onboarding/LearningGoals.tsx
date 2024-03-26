@@ -6,11 +6,15 @@ import { Button } from '../ui/button';
 import RHFCheckbox from '../RHFInputs/RHFCheckbox';
 import RHFInput from '../RHFInputs/RHFInput';
 import { EOnboardingStep } from '@/types/onboarding-step';
+import { IUserOnboarding } from '@/lib/zod/onboarding-schema';
 
 // ----------------------------------------------------------------
 
 interface ILearningGoalsProps {
-  handleChangeStep: (newStep: EOnboardingStep) => void;
+  handleChangeStep: (
+    data: Partial<IUserOnboarding>,
+    newStep: EOnboardingStep
+  ) => void;
 }
 
 const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
@@ -18,13 +22,20 @@ const LearningGoals: React.FC<ILearningGoalsProps> = ({ handleChangeStep }) => {
   const {
     trigger,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({ name: 'learningGoals' });
-
   const validateAndChangeStep = async () => {
     const validInputs = await trigger('learningGoals');
 
-    if (validInputs) await handleChangeStep(KNOWLEDGE_LEVEL);
+    if (!validInputs) return;
+
+    const learningGoals = getValues('learningGoals');
+
+    await handleChangeStep(
+      { learningGoals, onboardingStep: KNOWLEDGE_LEVEL },
+      KNOWLEDGE_LEVEL
+    );
   };
 
   return (
